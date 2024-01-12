@@ -25,7 +25,7 @@ module.exports = class UserController {
           if (result.length) { // if account exists
             res.status(400).json({ message: "Account already exists" });
           } else {
-            bcrypt.hash(password, saltRounds).then((hashedPassword) => {
+            bcrypt.hash(password, saltRounds).then((hashedPassword) => { 
               // first hashing password
               let newUser = User({
                 fName,
@@ -67,11 +67,15 @@ module.exports = class UserController {
             let user = data[0];
             bcrypt.compare(password, data[0].password).then((result) => { // comparing password with hashed password
               if (result) {
-                res.status(200).json({ message: "Login successful", user });
+                req.user = user;
+                res.render(`${user.role}Home`, {user: user});
               } else {
                 res.status(400).json({ message: "Invalid credentials" });
               }
             });
+          }
+          else{
+            res.status(400).json({ message: "Invalid credentials" });
           }
         })
         .catch((err) => {
@@ -79,4 +83,6 @@ module.exports = class UserController {
         });
     }
   }
+
+ 
 };
