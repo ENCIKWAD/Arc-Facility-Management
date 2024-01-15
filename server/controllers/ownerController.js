@@ -1,4 +1,6 @@
 const Facility = require("../models/facility");
+const Report = require("../models/report");
+const LeaseRequest = require("../models/request");
 
 module.exports = class OwnerController {
   static async fetchFacilities(req, res) {
@@ -76,4 +78,59 @@ static async deleteFacility(req, res){
       res.status(400).json({ message: err.message });
     }
   }
+
+  static async createReport(req, res){
+    try{
+      const report = req.body;
+
+      const existingReport = await Report.findOne({
+        title: report.title
+      })
+
+
+      if(existingReport){
+        return res.status(400).json({message: "You have already made this report"})
+      }
+
+      const newReport = await Report.create(report);
+
+      res.status(201).json({message: "Report created successfully", report: newReport});
+    }
+    catch(err){
+      res.status(400).json({message: err.message});
+    }
+  }
+
+  static async fetchRequests(req, res){
+    try{
+      const leaseRequests = await LeaseRequest.find();
+      res.status(200).json(leaseRequests);
+    }
+    catch(err){
+      res.status(400).json({message: err.message});
+    }
+  }
+
+  static async editRequest(req, res){
+    try{
+      const id = req.body._id;
+      const leaseRequest = req.body;
+      await LeaseRequest.findByIdAndUpdate(id, leaseRequest);
+      res.status(200).json({message: "Request edited successfully"});
+    }
+    catch(err){
+      res.status(400).json({message: err.message});
+    }
+  }
+
+  // static async deleteRequest(req, res){
+  //   const id = req.body._id;
+  //   try{
+  //     const request = await LeaseRequest.findByIdAndDelete(id);
+  //     res.status(200).json({message: "Request deleted successfully"});
+  //   }
+  //   catch(err){
+  //     res.status(400).json({message: err.message});
+  //   }
+  // }
 };

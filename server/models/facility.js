@@ -7,7 +7,8 @@ const facilitySchema = new mongoose.Schema({
     image: String,
     location: String,
     minCap: Number,
-    Type: String
+    type: String,
+    available: Boolean
 
 })
 
