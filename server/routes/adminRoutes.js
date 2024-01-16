@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {ROLE} = require('../Role');
+const adminController = require('../controllers/adminController');
 
-router.get('/',(req, res) => {
-    res.status(200).send({message: "Admin page"})
-    
-})
+router.post('/manageAnnouncement/addAnnouncement', adminController.createAnnouncement)
+router.get('/manageAnnouncement', adminController.fetchAnnouncements)
+router.patch('/manageAnnouncement/editAnnouncement/:id', adminController.editAnnouncement)
+router.delete('/manageAnnouncement/deleteAnnouncement/:id', adminController.deleteAnnouncement)
 
+router.get('/manageTenant', adminController.fetchTenants)
+router.patch('/manageTenant/:id', adminController.editTenant)
+
+
+router.get('/inbox', adminController.fetchReports)
+router.delete('/inbox/:id', adminController.deleteReport)
+router.get('/inbox/:id', adminController.fetchReportByID) // maybe we dont need this
 
 module.exports = router;

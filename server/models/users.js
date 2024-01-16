@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     image: String,
-    role: String
+    role: String,
+    isBanned: Boolean
 })
 
 module.exports = mongoose.model('User', userSchema);

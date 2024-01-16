@@ -34,6 +34,7 @@ module.exports = class UserController {
                 password: hashedPassword, // then saving hashed password
                 role: "tenant",
                 image: "default.png",
+                isBanned: false
               });
               newUser
                 .save() // saving user to database
