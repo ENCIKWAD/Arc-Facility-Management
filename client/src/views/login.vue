@@ -28,7 +28,7 @@
             class="loginBtn"
             size="x-large"
             rounded="l"
-            color="primary"
+            color="#0B3667"
             width="200"
             >Login</v-btn
           >
@@ -112,6 +112,7 @@ export default {
 a {
   margin-left: 5px;
   text-decoration: none;
+  color: #0000FF;
 }
 
 .loginFlex {
