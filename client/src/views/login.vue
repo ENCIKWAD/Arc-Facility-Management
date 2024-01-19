@@ -50,6 +50,18 @@
     >
       {{ this.message }}
     </v-alert>
+    <v-alert
+      class="alert"
+      border="left"
+      closable
+      close-text="Close Alert"
+      color="green accent-4"
+      dark
+      dismissible
+      v-if="this.$route.query.message"
+    >
+      {{ this.$route.query.message }}
+    </v-alert>
   </div>
 </template>
 

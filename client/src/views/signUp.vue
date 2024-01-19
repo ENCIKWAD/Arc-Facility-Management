@@ -122,7 +122,7 @@ export default {
         let response = await UserAPI.signUp(user);
         this.$router.push({
           name: "login",
-          params: { message: response.message },
+          query: { message: response.message},
         });
       } catch (err) {
         this.toggleAlert = true;
