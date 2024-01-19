@@ -9,12 +9,14 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: Login,
+    props: true
   },
   {
     path: '/signUp',
     name: 'signUp',
-    component: SignUp
+    component: SignUp,
+    props: true
   },
   {
     path: '/tenant',

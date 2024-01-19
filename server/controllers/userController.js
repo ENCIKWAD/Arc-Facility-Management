@@ -3,20 +3,27 @@ const bcrypt = require("bcrypt");
 
 module.exports = class UserController {
   static async signUp(req, res) {
-    let { fName, lName, email, password } = req.body;
-    // removing white spaces
-    fName = fName.trim();
-    lName = lName.trim();
-    email = email.trim();
-    password = password.trim();
+    let user = req.body;
+    let { fName, lName, email, password, confirmPassword } = user;
 
-    if (fName == "" || lName == "" || email == "" || password == "") { // checking if any field is empty
+    if (fName == "" || lName == "" || email == "" || password == "" || confirmPassword == "") { // checking if any field is empty
       res.status(400).json({ message: "All fields are required" });
     } else if (password.length < 8) { // checking if password is less than 8 characters
       res
         .status(400)
         .json({ message: "Password must be at least 8 characters" });
-    } else {
+    } 
+    else if(!fName.match(/^[a-zA-Z]+$/) || !lName.match(/^[a-zA-Z]+$/)){
+      res.status(400).json({ message: "Your name must only contain letters" });
+    } 
+    // checking if first name is valid
+    else if (!email.includes("@")) { // checking if email is valid
+      res.status(400).json({ message: "Invalid email address" });
+    }
+    else if(password !== confirmPassword){ 
+      res.status(400).json({ message: "Password and confirm password do not match" });
+    }// checking if password and confirm password are same
+    else {
       // hashing password
       const saltRounds = 10; // salt rounds for hashing
       User.find({ email })
