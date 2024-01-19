@@ -56,9 +56,8 @@ module.exports = class UserController {
   }
 
   static async login(req, res) {
-    let { email, password } = req.body;
-    email = email.trim();
-    password = password.trim();
+    let user = req.body;
+    let { email, password } = user;
     if (email == "" || password == "") {
       res.status(400).json({ message: "Please fill both email and password" });
     } else {
@@ -68,8 +67,7 @@ module.exports = class UserController {
             let user = data[0];
             bcrypt.compare(password, data[0].password).then((result) => { // comparing password with hashed password
               if (result) {
-                req.user = user;
-                res.render(`${user.role}Home`, {user: user});
+                res.status(200).json({ message: "Login successful", user });
               } else {
                 res.status(400).json({ message: "Invalid credentials" });
               }
@@ -80,7 +78,7 @@ module.exports = class UserController {
           }
         })
         .catch((err) => {
-          res.status(400).json({ message: err.message });
+          res.status(400).json({ message: "error here" });
         });
     }
   }
