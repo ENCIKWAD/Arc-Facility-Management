@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import UserAPI from "../userAPI.js";
+import UserAPI from "../API/userAPI.js";
 export default {
   name: "signUp",
   data() {

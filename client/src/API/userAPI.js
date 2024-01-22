@@ -11,4 +11,5 @@ export default class UserAPI {
         const res = await axios.post(url + 'signUp', user);
         return res.data;
     }
+
 }

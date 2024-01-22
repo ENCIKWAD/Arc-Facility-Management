@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import UserAPI from "../userAPI.js";
+import UserAPI from "../API/userAPI.js";
 export default {
   name: "login",
   data() {
@@ -91,9 +91,10 @@ export default {
 
       try {
         let response = await UserAPI.login(user);
+        sessionStorage.setItem('user', JSON.stringify(response.user));
         this.message = "";
         this.toggleAlert = false;
-        this.$router.push(`/${response.user.role}`);
+        this.$router.push(`/${response.user.role}`, { params: { user: response.user } });
       } catch (err) {
         this.toggleAlert = true;
         this.message = err.response.data.message;

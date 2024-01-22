@@ -4,8 +4,6 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors');
 const User = require('./models/users');
-const {authRole} = require('./middleware/userAuth')
-const {ROLE} = require('./Role');
 
 
 const app = express(); // creating the app
@@ -17,7 +15,6 @@ app.use(cors());
 app.use(express.json()); // for the RESTFUL API
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("uploads")); // for the images that will be uploaded
-// app.use(setUser)
 
 
 // routes
@@ -26,7 +23,6 @@ const ownerRoutes = require('./routes/ownerRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const tenantRoutes = require('./routes/tenantRoutes');
 
-app.set('view engine', 'ejs');
 
 app.use('/', userRoutes);
 app.use('/owner',   ownerRoutes);
