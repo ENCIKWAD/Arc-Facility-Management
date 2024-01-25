@@ -1,13 +1,14 @@
 <template>
-  <v-card class="pa-4" min-height="450" min-width="300" hover max-width="380" height="550" max-height="550">
-    <v-img max-height="400" max-width="380" :src="facility.image" ></v-img>
+  <v-card class="pa-4" min-height="450" min-width="300" hover max-width="380"  max-height="500">
+    <v-img cover height="200" width="380" :src="facility.image" ></v-img>
     <v-card-title>{{ facility.title }}</v-card-title>
     <v-container class="textFlex">
       <v-card-text class="location no-margin">{{ facility.location }}</v-card-text>
-      <v-card-text class="price no-margin">{{ formatCurrency(facility.price)}}/hr</v-card-text>
+      <v-card-text style="color: green;" class="price no-margin">{{ formatCurrency(facility.price)}}/hr</v-card-text>
     </v-container >
     <v-card-text class="type no-margin">Type: {{ facility.type }}</v-card-text>
-    <v-card-text class="available no-margin">{{ formatAvailability(facility.available) }}</v-card-text>
+    <v-card-text v-if="facility.available" class="available no-margin green">{{ formatAvailability(facility.available) }}</v-card-text>
+    <v-card-text v-if="!facility.available" class="available no-margin red">{{ formatAvailability(facility.available) }}</v-card-text>
     <v-container class="textFlex">
       <v-card-text class="location"></v-card-text>
       <div>
@@ -16,7 +17,7 @@
       </div>
     </v-container>
     <v-spacer></v-spacer>
-    <v-btn style="margin-top: 70px;" block color="#5F3DAC">View Facility</v-btn>
+    <v-btn :to="{name: `${user.role}Facility`, params: {id: facility._id}}" style="margin-top: 30px;" block color="#5F3DAC">View Facility</v-btn>
   </v-card>
 </template>
 
@@ -25,6 +26,9 @@ export default {
   name: "Facility",
   props: {
     facility: Object
+  },
+  async created(){
+    this.user = JSON.parse(sessionStorage.getItem('user'));
   },
   methods: {
     formatCurrency(value){

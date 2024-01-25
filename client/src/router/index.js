@@ -5,6 +5,9 @@ import AdminHome from '../views/AdminHome.vue';
 import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import NotAllowed from '@/views/NotAllowed.vue';
+import ManageFacility from '@/views/ManageFacility.vue';
+import AddFacility from '@/views/AddFacility.vue';
+import Facility from '@/views/Facility.vue';
 
 const routes = [
   {
@@ -39,6 +42,26 @@ const routes = [
     name: 'adminHome',
     component: AdminHome
   },
+  {
+    path: '/owner/manageFacility',
+    name: 'manageFacility',
+    component: ManageFacility,
+  },
+  {
+    path: '/owner/addFacility',
+    name: 'addFacility',
+    component: AddFacility,
+  },
+  {
+    path: '/owner/facility/:id',
+    name: 'ownerFacility',
+    component: Facility
+  },
+  {
+    path: '/tenant/facility/:id',
+    name: 'tenantFacility',
+    component: Facility
+  }
 ]
 
 const router = createRouter({

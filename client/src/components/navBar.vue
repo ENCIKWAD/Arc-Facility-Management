@@ -1,7 +1,7 @@
 <template>
   <v-app-bar color="#A5A5A5" :elevation="2" height="100">
     <v-img
-      src="../imgs/arc-icon.png"
+      src="/imgs/arc-icon.png"
       alt="Arc Icon"
       height="90"
       width="90"
@@ -18,9 +18,9 @@
         bg-color="white"
       ></v-text-field>
     </div>
-    <v-btn variant="plain" color="black" >Announcement</v-btn>
-    <v-btn variant="plain" color="black" >Report</v-btn>
-    <v-btn variant="plain" color="black">
+    <v-btn :ripple="false" variant="plain" color="black" >Announcement</v-btn>
+    <v-btn :ripple="false" variant="plain" color="black" >Report</v-btn>
+    <v-btn :ripple="false" variant="plain" color="black">
     <v-icon size="35">mdi-email</v-icon>
 </v-btn>
     <div class="userDiv" >
@@ -33,10 +33,7 @@
 <script>
 export default {
   name: "navBar",
-  props: {
-    userName: String,
-    userImage: String
-  }
+  props: ["userName", "userImage"]
 };
 </script>
 

@@ -33,7 +33,6 @@ export default{
         this.user = JSON.parse(sessionStorage.getItem('user'));
         try{
             this.facilities = await TenantAPI.fetchFacilities();
-            console.log(this.facilities)
         }
         catch(err){
             console.log(err)

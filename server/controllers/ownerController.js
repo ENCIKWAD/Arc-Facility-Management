@@ -7,18 +7,18 @@ module.exports = class OwnerController {
   static async fetchAnnouncements(req, res) {
     try {
       const announcements = await Announcement.find();
-      res.status(200).json(announcements);
+      return res.status(200).json(announcements);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
   static async fetchFacilities(req, res) {
     try {
       const facilities = await Facility.find();
-      res.status(200).json(facilities);
+      return res.status(200).json(facilities);
     } catch (err) {
-      res.status(400).json({ message: "There are no facilities" });
+      return res.status(400).json({ message: "There are no facilities" });
     }
   }
 
@@ -29,9 +29,9 @@ module.exports = class OwnerController {
       if (!facility) {
         return res.status(404).json({ message: "This facility is not found" });
       }
-      res.status(200).json(facility);
+      return res.status(200).json(facility);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
@@ -40,9 +40,9 @@ module.exports = class OwnerController {
     const id = req.params.id;
     try {
       await Facility.findByIdAndUpdate(id, facility);
-      res.status(200).json({ message: "Facility updated successfully" });
+      return res.status(200).json({ message: "Facility updated successfully" });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
@@ -50,15 +50,19 @@ module.exports = class OwnerController {
     const id = req.params.id;
     try {
       const result = await Facility.findByIdAndDelete(id);
-      res.status(200).json({ message: "Facility deleted successfully" });
+      return res.status(200).json({ message: "Facility deleted successfully" });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
   static async createFacility(req, res) {
     try {
       const facility = req.body;
+      facility.image = req.file.filename;
+      if (facility.title == "" || facility.description == "" || facility.image == "" || facility.location == "" || facility.minCap == "" || facility.type == "" || facility.available == "") {
+        return res.status(400).json({ message: "Please fill all the fields" });
+      }
 
       // Check if a facility with the same name already exists
       const existingFacility = await Facility.findOne({
@@ -75,12 +79,12 @@ module.exports = class OwnerController {
       // If no duplicate, create the facility
       const newFacility = await Facility.create(facility);
 
-      res.status(201).json({
+       return res.status(201).json({
         message: "Facility created successfully",
         facility: newFacility,
-      });
+      })
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: "Please fill all the fields" });
     }
   }
 
@@ -100,20 +104,20 @@ module.exports = class OwnerController {
 
       const newReport = await Report.create(report);
 
-      res
+      return res
         .status(201)
         .json({ message: "Report created successfully", report: newReport });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
   static async fetchRequests(req, res) {
     try {
       const leaseRequests = await LeaseRequest.find();
-      res.status(200).json(leaseRequests);
+      return res.status(200).json(leaseRequests);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
@@ -122,9 +126,9 @@ module.exports = class OwnerController {
       const id = req.params.id;
       const leaseRequest = req.body;
       await LeaseRequest.findByIdAndUpdate(id, leaseRequest);
-      res.status(200).json({ message: "Request edited successfully" });
+      return res.status(200).json({ message: "Request edited successfully" });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 

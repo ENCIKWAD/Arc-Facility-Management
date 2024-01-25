@@ -6,10 +6,10 @@ module.exports = class AdminController{
     static async fetchReports(req, res){
         try{
             const reports = await Report.find();
-            res.status(200).json(reports);
+            return res.status(200).json(reports);
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -20,10 +20,10 @@ module.exports = class AdminController{
             if(!report){
                 return res.status(404).json({message: "This report is not found"});
             }
-            res.status(200).json(report);
+            return res.status(200).json(report);
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -31,20 +31,20 @@ module.exports = class AdminController{
         try{
             const id = req.params.id;
             const report = await Report.findByIdAndDelete(id);
-            res.status(200).json({message: "Report deleted successfully"});
+            return res.status(200).json({message: "Report deleted successfully"});
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
     static async fetchTenants(req, res){
         try{
             const tenants = await User.find({role: "tenant"});
-            res.status(200).json(tenants);
+            return res.status(200).json(tenants);
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -55,10 +55,10 @@ module.exports = class AdminController{
             if(!tenant){
                 return res.status(404).json({message: "This tenant is not found"});
             }
-            res.status(200).json(tenant);
+            return res.status(200).json(tenant);
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -67,20 +67,20 @@ module.exports = class AdminController{
             const id = req.body._id;
             const tenant = req.body;
             await User.findByIdAndUpdate(id, tenant);
-            res.status(200).json({message: "Tenant updated successfully"});
+            return res.status(200).json({message: "Tenant updated successfully"});
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
     static async fetchAnnouncements(req, res){
         try{
             const announcements = await Announcement.find();
-            res.status(200).json(announcements);
+            return res.status(200).json(announcements);
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -89,10 +89,10 @@ module.exports = class AdminController{
             const announcement = req.body;
             const newAnnouncement = Announcement(announcement);
             await newAnnouncement.save();
-            res.status(200).json({message: "Announcement created successfully"});
+            return res.status(200).json({message: "Announcement created successfully"});
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -101,10 +101,10 @@ module.exports = class AdminController{
             const id = req.params.id;
             const announcement = req.body;
             await Announcement.findByIdAndUpdate(id, announcement);
-            res.status(200).json({message: "Announcement updated successfully"});
+            return res.status(200).json({message: "Announcement updated successfully"});
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
 
@@ -112,10 +112,10 @@ module.exports = class AdminController{
         try{
             const id = req.params.id;
             await Announcement.findByIdAndDelete(id);
-            res.status(200).json({message: "Announcement deleted successfully"});
+            return res.status(200).json({message: "Announcement deleted successfully"});
         }
         catch(err){
-            res.status(400).json({message: err.message});
+            return res.status(400).json({message: err.message});
         }
     }
     

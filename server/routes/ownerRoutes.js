@@ -1,10 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/ownerController');
+const multer = require('multer');
+
+let storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './uploads')
+    },
+    filename: function(req, file, cb){
+        cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname)
+    }
+})
+
+let upload = multer({
+    storage: storage
+}).single('image')
 
 
-router.get('/viewFacility', controller.fetchFacilities)
-router.post('/addFacility', controller.createFacility)
+router.get('/', controller.fetchFacilities)
+router.post('/addFacility', upload, controller.createFacility)
 router.get('/facility/:id', controller.fetchFacilityByID)
 router.patch('/editFacility/:id', controller.updateFacility)
 router.delete('/facility/:id', controller.deleteFacility)

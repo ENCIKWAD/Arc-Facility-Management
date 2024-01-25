@@ -7,17 +7,17 @@ module.exports = class TenantController {
   static async fetchAnnouncements(req, res) {
     try {
       const announcements = await Announcement.find();
-      res.status(200).json(announcements);
+      return res.status(200).json(announcements);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
   static async fetchFacilities(req, res) {
     try {
       const facilities = await Facility.find();
-      res.status(200).json(facilities);
+      return res.status(200).json(facilities);
     } catch (err) {
-      res.status(400).json({ message: "There are no facilities" });
+      return res.status(400).json({ message: "There are no facilities" });
     }
   }
 
@@ -28,9 +28,9 @@ module.exports = class TenantController {
       if (!facility) {
         return res.status(404).json({ message: "This facility is not found" });
       }
-      res.status(200).json(facility);
+      return res.status(200).json(facility);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
@@ -50,11 +50,11 @@ module.exports = class TenantController {
 
       const newReport = await Report.create(report);
 
-      res
+      return res
         .status(201)
         .json({ message: "Report created successfully", report: newReport });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
@@ -90,20 +90,20 @@ module.exports = class TenantController {
       }
 
       const newRequest = await Request.create(request);
-      res
+      return res
         .status(201)
         .json({ message: "Request created successfully", request: newRequest });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      return res.status(400).json({ message: err.message });
     }
   }
 
   static async fetchRequests(req, res) {
     try {
       const requests = await Request.findOne({ tenantId: req.body.tenantId });
-      res.status(200).json(requests);
+      return res.status(200).json(requests);
     } catch (err) {
-      res.status(400).json({ message: "There are no requests" });
+      return res.status(400).json({ message: "There are no requests" });
     }
   }
 };
