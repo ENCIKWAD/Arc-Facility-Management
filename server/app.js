@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("uploads")); // for the images that will be uploaded
 app.use('/owner/facility', express.static('uploads'));
 app.use('/tenant/facility', express.static('uploads'));
+app.use('/owner/editFacility', express.static('uploads'));
 
 
 // routes

@@ -16,4 +16,17 @@ export default class OwnerAPI{
         const res = await axios.get(url + "/facility/" + id);
         return res.data;
     }
+
+    static async editFacility(id, facility){
+        const res = await axios.patch(url+ '/editFacility/' + id, facility);
+        return res.data;
+    }
+
+    static async deleteFacility(id){
+        const res = await axios.delete(url + "/deleteFacility/" + id);
+        return res.data;
+    }
+
+
+
 }

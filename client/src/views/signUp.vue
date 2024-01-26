@@ -35,6 +35,7 @@
             class="textFields"
             variant="outlined"
             label="Password"
+            type="password"
             color="primary"
             bg-color="#FFFFFF"
             :rules="passwordRules"
@@ -43,6 +44,7 @@
           <v-text-field
             class="textFields"
             variant="outlined"
+            type="password"
             label="Confirm Password"
             color="primary"
             bg-color="#FFFFFF"

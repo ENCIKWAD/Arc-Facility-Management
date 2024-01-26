@@ -8,6 +8,8 @@ import NotAllowed from '@/views/NotAllowed.vue';
 import ManageFacility from '@/views/ManageFacility.vue';
 import AddFacility from '@/views/AddFacility.vue';
 import Facility from '@/views/Facility.vue';
+import EditFacility from '@/views/EditFacility.vue';
+import DeleteFacility from '@/views/DeleteFacility.vue';
 
 const routes = [
   {
@@ -58,9 +60,19 @@ const routes = [
     component: Facility
   },
   {
+    path: '/owner/deleteFacility/:id',
+    name: 'deleteFacility',
+    component: DeleteFacility
+  },
+  {
     path: '/tenant/facility/:id',
     name: 'tenantFacility',
     component: Facility
+  },
+  {
+    path: '/owner/editFacility/:id',
+    name: 'editFacility',
+    component: EditFacility
   }
 ]
 

@@ -17,6 +17,7 @@
             class="textFields"
             v-model="user.password"
             variant="outlined"
+            type="password"
             label="Password"
             color="primary"
             bg-color="#FFFFFF"

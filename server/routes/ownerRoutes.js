@@ -20,8 +20,8 @@ let upload = multer({
 router.get('/', controller.fetchFacilities)
 router.post('/addFacility', upload, controller.createFacility)
 router.get('/facility/:id', controller.fetchFacilityByID)
-router.patch('/editFacility/:id', controller.updateFacility)
-router.delete('/facility/:id', controller.deleteFacility)
+router.patch('/editFacility/:id', upload, controller.updateFacility)
+router.delete('/deleteFacility/:id', controller.deleteFacility)
 router.post('/report', controller.createReport)
 router.get('/inbox', controller.fetchRequests)
 // router.delete('/inbox', controller.deleteRequest) // needs to be tested

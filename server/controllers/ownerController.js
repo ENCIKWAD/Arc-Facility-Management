@@ -2,6 +2,7 @@ const Facility = require("../models/facility");
 const Report = require("../models/report");
 const LeaseRequest = require("../models/request");
 const Announcement = require("../models/announcement");
+const fs = require('fs')
 
 module.exports = class OwnerController {
   static async fetchAnnouncements(req, res) {
@@ -36,8 +37,26 @@ module.exports = class OwnerController {
   }
 
   static async updateFacility(req, res) {
-    const facility = req.body;
+    console.log('yo')
     const id = req.params.id;
+    let new_image = ''
+    if(req.file){
+      new_image = req.file.filename;
+      try{
+        fs.unlinkSync('./uploads/' + req.body.old_image)
+      }
+      catch(err){
+        return res.status(402).json({message: err.message})
+      }
+    }
+    else{
+      new_image = req.body.old_image
+    }
+    const facility = req.body;
+    facility.image = new_image;
+    if(facility.title == "" || facility.description == "" || facility.image == "" || facility.location == "" || facility.minCap == "" || facility.type == "" || facility.available == ""){
+      return res.status(400).json({message: "Please fill all the fields"});
+    }
     try {
       await Facility.findByIdAndUpdate(id, facility);
       return res.status(200).json({ message: "Facility updated successfully" });
@@ -47,8 +66,8 @@ module.exports = class OwnerController {
   }
 
   static async deleteFacility(req, res) {
-    const id = req.params.id;
     try {
+      const id = req.params.id;
       const result = await Facility.findByIdAndDelete(id);
       return res.status(200).json({ message: "Facility deleted successfully" });
     } catch (err) {
