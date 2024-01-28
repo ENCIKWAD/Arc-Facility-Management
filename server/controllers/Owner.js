@@ -1,18 +1,11 @@
-const Facility = require("../models/facility");
-const Report = require("../models/report");
-const LeaseRequest = require("../models/request");
-const Announcement = require("../models/announcement");
+const Facility = require("../models/Facility");
+const Report = require("../models/Report");
+const LeaseRequest = require("../models/Request");
+const Announcement = require("../models/Announcement");
+const User = require("../models/users");
 const fs = require('fs')
 
 module.exports = class OwnerController {
-  static async fetchAnnouncements(req, res) {
-    try {
-      const announcements = await Announcement.find();
-      return res.status(200).json(announcements);
-    } catch (err) {
-      return res.status(400).json({ message: err.message });
-    }
-  }
 
   static async fetchFacilities(req, res) {
     try {
@@ -107,29 +100,6 @@ module.exports = class OwnerController {
     }
   }
 
-  static async createReport(req, res) {
-    try {
-      const report = req.body;
-
-      const existingReport = await Report.findOne({
-        title: report.title,
-      });
-
-      if (existingReport) {
-        return res
-          .status(400)
-          .json({ message: "You have already made this report" });
-      }
-
-      const newReport = await Report.create(report);
-
-      return res
-        .status(201)
-        .json({ message: "Report created successfully", report: newReport });
-    } catch (err) {
-      return res.status(400).json({ message: err.message });
-    }
-  }
 
   static async fetchRequests(req, res) {
     try {
@@ -167,6 +137,16 @@ module.exports = class OwnerController {
     sortObject[sort] = -1;
     let find = await Facility.find().sort(sortObject).exec()
     return res.status(200).json(find)
+  }
+
+  static async fetchTenantsByEmail(req, res){
+    try{
+      const tenants = await User.find({role: "tenant"});
+      return res.status(200).json(tenants);
+    }
+    catch(err){
+      return res.status(400).json({message: err.message});
+    }
   }
 
   // static async deleteRequest(req, res){

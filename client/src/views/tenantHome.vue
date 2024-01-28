@@ -29,6 +29,7 @@ export default{
         navBar,
         Facility
     },
+    
     async created(){
         this.user = JSON.parse(sessionStorage.getItem('user'));
         try{

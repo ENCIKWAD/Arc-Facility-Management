@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/adminController');
+const Admin = require('../controllers/Admin');
 
-router.post('/manageAnnouncement/addAnnouncement', adminController.createAnnouncement)
-router.get('/manageAnnouncement', adminController.fetchAnnouncements)
-router.patch('/manageAnnouncement/editAnnouncement/:id', adminController.editAnnouncement)
-router.delete('/manageAnnouncement/deleteAnnouncement/:id', adminController.deleteAnnouncement)
+router.post('/manageAnnouncement/addAnnouncement', Admin.createAnnouncement)
+router.get('/manageAnnouncement', Admin.fetchAnnouncements)
+router.patch('/manageAnnouncement/editAnnouncement/:id', Admin.editAnnouncement)
+router.delete('/manageAnnouncement/deleteAnnouncement/:id', Admin.deleteAnnouncement)
 
-router.get('/manageTenant', adminController.fetchTenants)
-router.patch('/manageTenant/:id', adminController.editTenant)
+router.get('/manageTenant', Admin.fetchTenants)
+router.patch('/manageTenant/:id', Admin.editTenant)
 
 
-router.get('/inbox', adminController.fetchReports)
-router.delete('/inbox/:id', adminController.deleteReport)
-router.get('/inbox/:id', adminController.fetchReportByID) // maybe we dont need this
+router.get('/inbox', Admin.fetchReports)
+router.delete('/inbox/:id', Admin.deleteReport)
+router.get('/inbox/:id', Admin.fetchReportByID) // maybe we dont need this
 
 module.exports = router;

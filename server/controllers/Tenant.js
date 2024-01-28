@@ -1,7 +1,7 @@
-const Facility = require("../models/facility");
-const Request = require("../models/request");
-const Report = require("../models/report");
-const Announcement = require("../models/announcement");
+const Facility = require("../models/Facility");
+const Request = require("../models/Request");
+const Report = require("../models/Report");
+const Announcement = require("../models/Announcement");
 
 module.exports = class TenantController {
   static async fetchAnnouncements(req, res) {

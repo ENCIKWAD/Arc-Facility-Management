@@ -1,6 +1,6 @@
-const Report = require ('../models/report');
+const Report = require ('../models/Report');
 const User = require ('../models/users');
-const Announcement = require ('../models/announcement');
+const Announcement = require ('../models/Announcement');
 
 module.exports = class AdminController{
     static async fetchReports(req, res){

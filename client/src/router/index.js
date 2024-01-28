@@ -10,6 +10,8 @@ import AddFacility from '@/views/AddFacility.vue';
 import Facility from '@/views/Facility.vue';
 import EditFacility from '@/views/EditFacility.vue';
 import DeleteFacility from '@/views/DeleteFacility.vue';
+import Announcement from '@/views/Announcement.vue';
+import Report from '@/views/Report.vue';
 
 const routes = [
   {
@@ -73,6 +75,16 @@ const routes = [
     path: '/owner/editFacility/:id',
     name: 'editFacility',
     component: EditFacility
+  },
+  {
+    path: '/announcement',
+    name: 'announcement',
+    component: Announcement
+  },
+  {
+    path: '/report',
+    name: 'report',
+    component: Report
   }
 ]
 

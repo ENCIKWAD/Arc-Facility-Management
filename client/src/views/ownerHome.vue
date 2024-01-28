@@ -69,10 +69,11 @@ export default {
     }
     if(this.$route.query.message){
       this.$nextTick(() => {
-        this.closeAlert();
+        setTimeout(this.closeAlert, 5000)
       })
     }
   },
+  
   methods: {
     closeAlert(){
       this.$router.push({ query: {} });

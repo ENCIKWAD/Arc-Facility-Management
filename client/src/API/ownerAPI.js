@@ -39,6 +39,12 @@ export default class OwnerAPI{
         return res.data;
     }
 
+    static async getTenants(){
+        const res = await axios.get(url + '/report');
+        return res.data;
+    }
+
+
 
 
 }

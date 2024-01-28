@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/ownerController');
+const Owner = require('../controllers/Owner');
 const multer = require('multer');
 
 let storage = multer.diskStorage({
@@ -17,15 +17,15 @@ let upload = multer({
 }).single('image')
 
 
-router.get('/', controller.fetchFacilities)
-router.post('/', controller.search)
-router.post('/manageFacility', controller.sort)
-router.post('/addFacility', upload, controller.createFacility)
-router.get('/facility/:id', controller.fetchFacilityByID)
-router.patch('/editFacility/:id', upload, controller.updateFacility)
-router.delete('/deleteFacility/:id', controller.deleteFacility)
-router.post('/report', controller.createReport)
-router.get('/inbox', controller.fetchRequests)
+router.get('/', Owner.fetchFacilities)
+router.post('/', Owner.search)
+router.post('/manageFacility', Owner.sort)
+router.post('/addFacility', upload, Owner.createFacility)
+router.get('/facility/:id', Owner.fetchFacilityByID)
+router.patch('/editFacility/:id', upload, Owner.updateFacility)
+router.delete('/deleteFacility/:id', Owner.deleteFacility)
+router.get('/report', Owner.fetchTenantsByEmail)
+router.get('/inbox', Owner.fetchRequests)
 // router.delete('/inbox', controller.deleteRequest) // needs to be tested
 
 module.exports = router;

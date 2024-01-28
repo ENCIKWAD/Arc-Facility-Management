@@ -12,4 +12,14 @@ export default class UserAPI {
         return res.data;
     }
 
+    static async fetchAnnouncements(){
+        const res = await axios.get(url + '/announcement');
+        return res.data;
+    }
+
+    static async createReport(report){
+        const res = await axios.post(url + 'report', report);
+        return res.data;
+    }
+
 }

@@ -35,8 +35,8 @@
         </div>
       </template>
     </div>
-    <v-btn :ripple="false" variant="plain" color="black" >Announcement</v-btn>
-    <v-btn :ripple="false" variant="plain" color="black" >Report</v-btn>
+    <v-btn :to="{name: 'announcement'}" :ripple="false" variant="plain" color="black" >Announcement</v-btn>
+    <v-btn :to="{name: 'report'}" :ripple="false" variant="plain" color="black" >Report</v-btn>
     <v-btn :ripple="false" variant="plain" color="black">
     <v-icon size="35">mdi-email</v-icon>
 </v-btn>

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/tenantController');
+const Tenant = require('../controllers/Tenant');
 
-router.get('/', controller.fetchFacilities)
-router.post('/', controller.search)
-router.get('/facility/:id', controller.fetchFacilityByID)
-router.post('/lease/:id', controller.createRequest)
-router.post('/report', controller.createReport)
-router.get('/inbox', controller.fetchRequests)
+router.get('/', Tenant.fetchFacilities)
+router.post('/', Tenant.search)
+router.get('/facility/:id', Tenant.fetchFacilityByID)
+router.post('/lease/:id', Tenant.createRequest)
+router.post('/report', Tenant.createReport)
+router.get('/inbox', Tenant.fetchRequests)
 
 module.exports = router;

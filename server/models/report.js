@@ -3,10 +3,16 @@ const mongoose = require('mongoose')
 const reportSchema = new mongoose.Schema({
     title: String,
     type: String,
-    description: String,
+    message: String,
     facilityId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Facility'
+        ref: 'Facility',
+        default: null
+    },
+    tenantId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
     },
     date: {
         type: Date,

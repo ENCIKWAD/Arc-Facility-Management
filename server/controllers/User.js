@@ -1,5 +1,6 @@
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
+const Report = require("../models/Report");
 
 module.exports = class UserController {
   static async signUp(req, res) {
@@ -87,6 +88,48 @@ module.exports = class UserController {
         .catch((err) => {
           return res.status(400).json({ message: "error here" });
         });
+    }
+  }
+
+  static async fetchAnnouncements(req, res) {
+    try {
+      const announcements = await Announcement.find();
+      return res.status(200).json(announcements);
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
+    }
+  }
+
+  static async createReport(req, res) {
+    try {
+      const report = req.body;
+      if(report.title == "" || report.type == "" || report.message == ""){
+        return res.status(401).json({ message: "Please fill all the fields" });
+      }
+      else if(report.type == 'Request Maintenance' && !report.facilityId){
+        return res.status(402).json({ message: "Please select a facility" });
+      }
+      else if(report.type == 'Report Tenants' && !report.tenantId){
+        return res.status(403).json({ message: "Please select a tenant" });
+      }
+
+      const existingReport = await Report.findOne({
+        title: report.title,
+      });
+
+      if (existingReport) {
+        return res
+          .status(405)
+          .json({ message: "You have already made this report" });
+      }
+
+      const newReport = await Report.create(report);
+
+      return res
+        .status(201)
+        .json({ message: "Report created successfully", report: newReport });
+    } catch (err) {
+      return res.status(406).json({ message: err.message });
     }
   }
 
