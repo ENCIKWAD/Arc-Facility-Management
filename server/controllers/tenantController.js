@@ -58,6 +58,12 @@ module.exports = class TenantController {
     }
   }
 
+  static async search(req, res){
+    const search = req.body.search;
+    let find = await Facility.find({title: {$regex: new RegExp('.*'+search+'.*', 'i')}}).limit(4).exec()
+    return res.status(200).json(find)
+  }
+
   static async createRequest(req, res) {
     try {
       const request = req.body;

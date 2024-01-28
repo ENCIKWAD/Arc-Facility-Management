@@ -1,6 +1,6 @@
 <template>
     <div class="background-1">
-        <navBar :userName="user.fName" :userImage="user.image" ></navBar>
+        <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role"></navBar>
         <h1 class="title">Facilities</h1>
 
         <v-container>

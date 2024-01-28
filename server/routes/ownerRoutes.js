@@ -18,6 +18,8 @@ let upload = multer({
 
 
 router.get('/', controller.fetchFacilities)
+router.post('/', controller.search)
+router.post('/manageFacility', controller.sort)
 router.post('/addFacility', upload, controller.createFacility)
 router.get('/facility/:id', controller.fetchFacilityByID)
 router.patch('/editFacility/:id', upload, controller.updateFacility)

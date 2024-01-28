@@ -6,4 +6,10 @@ export default class TenantAPI{
         const res = await axios.get(url);
         return res.data;
     }
+
+    static async search(search){
+        const newSearch = {search: search}
+        const res = await axios.post(url, newSearch);
+        return res.data;
+    }
 }

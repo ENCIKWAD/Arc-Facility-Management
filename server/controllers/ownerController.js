@@ -151,6 +151,24 @@ module.exports = class OwnerController {
     }
   }
 
+  static async search(req, res){
+    const search = req.body.search;
+    let find = await Facility.find({title: {$regex: new RegExp('.*'+search+'.*', 'i')}}).limit(4).exec()
+    return res.status(200).json(find)
+  }
+
+  static async sort(req, res){
+    const sort = req.body.sort;
+    if(sort === 'n'){
+      let find = await Facility.find().exec()
+      return res.status(200).json(find)
+    }
+    let sortObject = {};
+    sortObject[sort] = -1;
+    let find = await Facility.find().sort(sortObject).exec()
+    return res.status(200).json(find)
+  }
+
   // static async deleteRequest(req, res){
   //   const id = req.body._id;
   //   try{

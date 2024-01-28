@@ -27,6 +27,18 @@ export default class OwnerAPI{
         return res.data;
     }
 
+    static async search(search){
+        const newSearch = {search: search}
+        const res = await axios.post(url, newSearch);
+        return res.data;
+    }
+
+    static async sort(sort){
+        const newSort = {sort: sort}
+        const res = await axios.post(url + '/manageFacility', newSort);
+        return res.data;
+    }
+
 
 
 }

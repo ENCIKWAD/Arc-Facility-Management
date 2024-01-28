@@ -1,6 +1,6 @@
 <template>
   <div class="background-1 pa-8">
-    <navBar :userName="user.fName" :userImage="user.image"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role"></navBar>
     <h1 v-if="loading">Loading...</h1>
     <v-card v-else class="pa-8 flex-card">
       <div>
@@ -99,12 +99,28 @@ export default {
       loading: true,
     };
   },
+  watch:{
+    '$route.params.id': {
+      immediate: true,
+      handler(newId) {
+        this.fetchFacility(newId);
+      }
+    }
+  },
   methods: {
     formatCurrency(value) {
+      if(value === undefined){
+        return 'MYR 0'
+      }
       return value.toLocaleString("en-US", {
         style: "currency",
         currency: "MYR",
       });
+    },
+    async fetchFacility(id){
+      const response = await OwnerAPI.getFacilityById(id);
+      this.facility = response;
+      this.loading = false;
     },
     formatAvailability(value) {
       if (value) {
