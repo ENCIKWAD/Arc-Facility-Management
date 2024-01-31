@@ -13,6 +13,17 @@ module.exports = class AdminController{
         }
     }
 
+    static async getUserById(req, res){
+        try{
+            const id = req.body.id;
+        const user = await User.findById(id);
+        return res.status(200).json(user);
+        }
+        catch(err){
+            console.log(err.message);
+        }
+    }
+
     static async fetchReportByID(req, res){
         try{
             const id = req.params.id;

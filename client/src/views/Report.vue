@@ -9,7 +9,7 @@
       <v-form ref="form" @submit.prevent="submitReport">
         <v-card
           rounded="l"
-          width="500"
+          width="600"
           :style="{
             height:
               selected !== 'What do you want to report?' ? '700px' : '200px',
@@ -142,6 +142,7 @@ export default {
         date: "",
         tenantId: "",
         facilityId: "",
+        userId: ""
       },
         toggleAlert: false,
         message: "",
@@ -196,6 +197,7 @@ export default {
           title: this.report.title,
           type: this.report.type,
           message: this.report.message,
+          userId: this.user._id
         };
 
         if (this.report.tenantId) {

@@ -4,6 +4,10 @@ const reportSchema = new mongoose.Schema({
     title: String,
     type: String,
     message: String,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     facilityId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Facility',

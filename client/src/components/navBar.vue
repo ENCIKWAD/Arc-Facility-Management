@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="#A5A5A5" :elevation="2" height="100"   :class="{ 'app-bar-with-results': !state.noSearch && state.searchResults.length > 0 }"
+  <v-app-bar scroll-behavior="collapse" scroll-threshold="119" color="#A5A5A5" :elevation="2" height="100"   :class="{ 'app-bar-with-results': !state.noSearch && state.searchResults.length > 0 }"
 >
 <v-btn variant="plain" :to="{name: `${userRole}Home`}" :ripple="false" class="image-button">
   <v-img
@@ -37,8 +37,11 @@
     </div>
     <v-btn :to="{name: 'announcement'}" :ripple="false" variant="plain" color="black" >Announcement</v-btn>
     <v-btn :to="{name: 'report'}" :ripple="false" variant="plain" color="black" >Report</v-btn>
-    <v-btn :ripple="false" variant="plain" color="black">
-    <v-icon size="35">mdi-email</v-icon>
+    <v-btn :to="{name: 'inbox'}" :ripple="false" variant="plain" color="black">
+      <v-badge :content="content" >
+
+        <v-icon  size="35">mdi-email</v-icon>
+      </v-badge>
 </v-btn>
     <div class="userDiv" >
         <img :src="userImage" class="profile-image">
@@ -50,13 +53,21 @@
 <script>
 import OwnerAPI from '../API/ownerAPI';
 import TenantAPI from '../API/tenantAPI';
+import AdminAPI from '../API/adminAPI';
 import {reactive} from 'vue'
 export default {
   
   name: "navBar",
   data(){
     return{
-      searchBar: ''
+      searchBar: '',
+      content: 0
+    }
+  },
+  async created(){
+    if(this.userRole === 'admin'){
+      const res = await AdminAPI.getReports();
+      this.content = res.length;
     }
   },
   methods: {

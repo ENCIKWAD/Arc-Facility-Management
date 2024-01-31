@@ -9,9 +9,11 @@ const RequestSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    minCap: Number,
+    price: Number,
     startDate: Date,
     endDate: Date,
-    status: Boolean
+    status: String
     
 });
 

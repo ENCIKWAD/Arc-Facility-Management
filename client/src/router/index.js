@@ -12,6 +12,7 @@ import EditFacility from '@/views/EditFacility.vue';
 import DeleteFacility from '@/views/DeleteFacility.vue';
 import Announcement from '@/views/Announcement.vue';
 import Report from '@/views/Report.vue';
+import Inbox from '@/views/Inbox.vue';
 
 const routes = [
   {
@@ -85,6 +86,11 @@ const routes = [
     path: '/report',
     name: 'report',
     component: Report
+  },
+  {
+    path: '/inbox',
+    name: 'inbox',
+    component: Inbox
   }
 ]
 
