@@ -10,6 +10,19 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-alert
+    @click:close="closeAlert"
+      class="alert"
+      border="left"
+      closable
+      close-text="Close Alert"
+      color="green accent-4"
+      dark
+      dismissible
+      v-if="this.$route.query.message"
+    >
+      {{ this.$route.query.message }}
+    </v-alert>
     </div>
 </template>
 
@@ -39,6 +52,11 @@ export default{
             console.log(err)
         }
         
+    },
+    methods:{
+        closeAlert(){
+      this.$router.push({ query: {} });
+    }
     }
 }
 </script>
@@ -55,6 +73,14 @@ export default{
     font-size: 35px;
     font-weight: bold;
 }
+
+.alert {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
 
 
 </style>
