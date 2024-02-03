@@ -13,7 +13,7 @@ router.patch('/manageTenant/:id', Admin.editTenant)
 
 router.get('/inbox', Admin.fetchReports)
 router.delete('/inbox/:id', Admin.deleteReport)
-router.get('/inbox/:id', Admin.fetchReportByID) // maybe we dont need this
 router.post('/inbox', Admin.getUserById)
+router.post('/inbox/facility', Admin.getFacilityById)
 
 module.exports = router;

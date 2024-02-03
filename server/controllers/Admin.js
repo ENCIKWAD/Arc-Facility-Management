@@ -1,6 +1,7 @@
 const Report = require ('../models/Report');
 const User = require ('../models/users');
 const Announcement = require ('../models/Announcement');
+const Facility = require ('../models/Facility');
 
 module.exports = class AdminController{
     static async fetchReports(req, res){
@@ -18,6 +19,17 @@ module.exports = class AdminController{
             const id = req.body.id;
         const user = await User.findById(id);
         return res.status(200).json(user);
+        }
+        catch(err){
+            console.log(err.message);
+        }
+    }
+
+    static async getFacilityById(req, res){
+        try{
+            const id = req.body.id;
+        const facility = await Facility.findById(id);
+        return res.status(200).json(facility);
         }
         catch(err){
             console.log(err.message);

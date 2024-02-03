@@ -94,8 +94,8 @@ module.exports = class TenantController {
             message: "This facility is already leased within this time",
           });
       }
-
       const newRequest = await Request.create(request);
+      newRequest.status = "Pending"
       return res
         .status(201)
         .json({ message: "Request created successfully", request: newRequest });
