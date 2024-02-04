@@ -1,6 +1,7 @@
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const Report = require("../models/Report");
+const fs = require('fs')
 
 module.exports = class UserController {
   static async signUp(req, res) {
@@ -130,6 +131,37 @@ module.exports = class UserController {
         .json({ message: "Report created successfully", report: newReport });
     } catch (err) {
       return res.status(406).json({ message: err.message });
+    }
+  }
+
+  static async manageAccount(req, res){
+    let new_image = ''
+    if(req.file){
+      new_image = req.file.filename
+    }
+    else{
+      new_image = req.body.old_image
+    }
+    const user = req.body
+    const id = user._id
+    user.image = new_image
+    if(user.fName == "" || user.lName == "" || user.email == ""){
+      return res.status(408).json({message: "Please fill all the fields"})
+    }
+    if( user.new_password != "" && user.new_password.length < 8){
+      return res.status(411).json({message: "Password must be at least 8 characters"})
+    }
+    if(user.new_password != ""){
+      const saltRounds = 10
+      user.password = await bcrypt.hash(user.new_password, saltRounds)
+    }
+    try{
+      
+      const updatedUser = await User.findByIdAndUpdate(id, user, {new: true});
+      return res.status(200).json({message: "Account updated successfully", user: updatedUser})
+    }
+    catch(err){
+      return res.status(419).json({message: err.message})
     }
   }
 

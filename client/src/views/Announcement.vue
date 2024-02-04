@@ -1,10 +1,7 @@
 <template>
   <div class="background-1 pa-6">
-    <navBar
-      :userName="user.fName"
-      :userImage="user.image"
-      :userRole="user.role"
-    ></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
+
 
     <v-container>
         <AnnouncementBox v-for="announcement in announcements" :key="announcement" :announcement="announcement" ></AnnouncementBox>

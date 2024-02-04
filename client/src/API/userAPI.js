@@ -22,4 +22,10 @@ export default class UserAPI {
         return res.data;
     }
 
+    static async manageAccount(user){
+        const res = await axios.patch(url + 'manageAccount', user);
+        return res.data;
+    }
+    
+
 }

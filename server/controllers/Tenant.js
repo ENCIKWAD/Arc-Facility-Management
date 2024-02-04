@@ -96,6 +96,7 @@ module.exports = class TenantController {
       }
       const newRequest = await Request.create(request);
       newRequest.status = "Pending"
+      newRequest.title = "Lease Request"
       return res
         .status(201)
         .json({ message: "Request created successfully", request: newRequest });

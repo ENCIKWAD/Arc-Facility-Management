@@ -14,6 +14,7 @@ import Announcement from '@/views/Announcement.vue';
 import Report from '@/views/Report.vue';
 import Inbox from '@/views/Inbox.vue';
 import DeleteReport from '@/views/DeleteReport.vue';
+import ManageAccount from '@/views/ManageAccount.vue';
 
 const routes = [
   {
@@ -97,6 +98,11 @@ const routes = [
     path: '/inbox/:id',
     name: 'deleteReport',
     component: DeleteReport
+  },
+  {
+    path: '/manageAccount',
+    name: 'manageAccount',
+    component: ManageAccount
   }
 ]
 

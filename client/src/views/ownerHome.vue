@@ -1,6 +1,6 @@
 <template>
   <div class="background-1">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
     <div :class="{'margin' : this.$route.query.message}" class="btnFlex">
       <h1 class="title">Facilities</h1>
       <v-btn
@@ -61,7 +61,6 @@ export default {
     Facility,
   },
   async created() {
-    this.user = JSON.parse(sessionStorage.getItem("user"));
     try {
       this.facilities = await OwnerAPI.fetchFacilities();
     } catch (err) {
@@ -77,6 +76,11 @@ export default {
   methods: {
     closeAlert(){
       this.$router.push({ query: {} });
+    }
+  },
+  computed: {
+    user(){
+      return JSON.parse(sessionStorage.getItem("user"));
     }
   }
 };

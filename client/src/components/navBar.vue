@@ -43,10 +43,34 @@
         <v-icon  size="35">mdi-email</v-icon>
       </v-badge>
 </v-btn>
-    <div class="userDiv" >
+    <v-menu >
+      <template v-slot:activator="{ props }" >
+      <v-btn v-bind="props" :ripple="false" class="userDiv">
         <img :src="userImage" class="profile-image">
-        <p class="userName" >{{ userName }}</p>
-    </div>
+        <p class="userName ml-3" >{{ userName }}</p>
+
+      </v-btn>
+      </template>
+
+      <v-card min-width="300" >
+      <v-list>
+      <v-list-item
+      :prepend-avatar="userImage"
+      :title="userName + ' ' + userLName"
+      :subtitle="userRole.charAt(0).toUpperCase() + userRole.slice(1)">
+      
+      </v-list-item></v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item>
+          <v-btn :to="{name: 'manageAccount'}" prepend-icon="mdi-account-convert" height="50" width="200" color="#5F3DAC">Manage Account</v-btn>
+        </v-list-item>
+        <v-list-item>
+          <v-btn @click="logout" prepend-icon="mdi-logout" height="50" width="200" color="#5F3DAC">Logout</v-btn>
+        </v-list-item>
+      </v-list>
+      </v-card>
+    </v-menu>
   </v-app-bar>
 </template>
 
@@ -76,9 +100,13 @@ export default {
       this.state.searchResults = [];
       this.searchBar = '';
 
+    },
+    logout(){
+      sessionStorage.removeItem('user');
+      this.$router.push({name: 'login'})
     }
   },
-  props: ["userName", "userImage", "userRole"],
+  props: ["userName", "userImage", "userRole", "userLName"],
   setup(props){
 
     const state = reactive({
@@ -141,6 +169,7 @@ export default {
     margin-right: 60px;
     justify-content: center;
     gap: 10px;
+    height: 100px
 }
 
 .userName{

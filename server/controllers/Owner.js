@@ -30,7 +30,6 @@ module.exports = class OwnerController {
   }
 
   static async updateFacility(req, res) {
-    console.log('yo')
     const id = req.params.id;
     let new_image = ''
     if(req.file){
