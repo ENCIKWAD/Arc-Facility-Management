@@ -14,7 +14,11 @@ import Announcement from '@/views/Announcement.vue';
 import Report from '@/views/Report.vue';
 import Inbox from '@/views/Inbox.vue';
 import DeleteReport from '@/views/DeleteReport.vue';
+import ManageAnnouncement from '@/views/ManageAnnouncement.vue';
+import AddAnnouncement from '@/views/AddAnnouncement.vue';
+import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import ManageAccount from '@/views/ManageAccount.vue';
+import DeleteAnnouncement from '@/views/DeleteAnnouncement.vue';
 
 const routes = [
   {
@@ -83,6 +87,26 @@ const routes = [
     path: '/announcement',
     name: 'announcement',
     component: Announcement
+  },
+  {
+    path: '/admin/manageAnnouncement',
+    name: 'manageAnnouncement',
+    component: ManageAnnouncement
+  },
+  {
+    path: '/admin/addAnnouncement',
+    name: 'addAnnouncement',
+    component: AddAnnouncement,
+  },
+  {
+    path: '/admin/EditAnnouncement/:id',
+    name: 'editAnnouncement',
+    component: EditAnnouncement,
+  },
+  {
+    path: '/admin/deleteAnnouncement/:id',
+    name: 'deleteAnnouncement',
+    component: DeleteAnnouncement
   },
   {
     path: '/report',

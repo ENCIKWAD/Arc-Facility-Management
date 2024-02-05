@@ -4,6 +4,7 @@ const Admin = require('../controllers/Admin');
 
 router.post('/manageAnnouncement/addAnnouncement', Admin.createAnnouncement)
 router.get('/manageAnnouncement', Admin.fetchAnnouncements)
+router.get('/manageAnnouncement/:id', Admin.getAnnouncementById)
 router.patch('/manageAnnouncement/editAnnouncement/:id', Admin.editAnnouncement)
 router.delete('/manageAnnouncement/deleteAnnouncement/:id', Admin.deleteAnnouncement)
 
