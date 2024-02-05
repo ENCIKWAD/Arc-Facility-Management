@@ -108,11 +108,28 @@ module.exports = class AdminController{
     }
 
     static async createAnnouncement(req, res){
+    try{
+        const { title, message } = req.body;
+        if (!title || !message) {
+            return res.status(400).json({message: "Title and message are required"});
+        }
+        const announcement = new Announcement({ title, message });
+        await announcement.save();
+        return res.status(200).json({message: "Announcement created successfully"});
+    }
+    catch(err){
+        return res.status(400).json({message: err.message});
+    }
+}
+
+    static async getAnnouncementById(req, res){
         try{
-            const announcement = req.body;
-            const newAnnouncement = Announcement(announcement);
-            await newAnnouncement.save();
-            return res.status(200).json({message: "Announcement created successfully"});
+            const id = req.params.id;
+            const announcement = await Announcement.findById(id);
+            if(!announcement){
+                return res.status(404).json({message: "This announcement is not found"});
+            }
+            return res.status(200).json(announcement);
         }
         catch(err){
             return res.status(400).json({message: err.message});
