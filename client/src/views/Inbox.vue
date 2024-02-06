@@ -20,7 +20,7 @@
               background-color: #f2eeee;
             "
           >
-            <div v-for="(user, index) in userInbox" :key="user._id">
+            <div v-for="(user, index) in userInbox" :key="index">
               <InboxList
                 @data="emitData"
                 class="inbox-item"
@@ -189,6 +189,7 @@ export default {
         let user = await AdminAPI.getUserById(this.inboxes[i].userId);
         this.userInbox.push(user);
       }
+      console.log(this.userInbox)
     } else if (this.user.role === "owner") {
       this.inboxes = this.temp;
       this.inboxes = this.inboxes

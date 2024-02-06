@@ -97,15 +97,6 @@ module.exports = class AdminController{
         }
     }
 
-    static async fetchAnnouncements(req, res){
-        try{
-            const announcements = await Announcement.find();
-            return res.status(200).json(announcements);
-        }
-        catch(err){
-            return res.status(400).json({message: err.message});
-        }
-    }
 
     static async createAnnouncement(req, res){
     try{

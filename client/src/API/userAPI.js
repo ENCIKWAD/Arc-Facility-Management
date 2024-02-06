@@ -13,7 +13,7 @@ export default class UserAPI {
     }
 
     static async fetchAnnouncements(){
-        const res = await axios.get(url + '/announcement');
+        const res = await axios.get(url + 'announcement');
         return res.data;
     }
 
@@ -26,6 +26,7 @@ export default class UserAPI {
         const res = await axios.patch(url + 'manageAccount', user);
         return res.data;
     }
+
     
 
 }

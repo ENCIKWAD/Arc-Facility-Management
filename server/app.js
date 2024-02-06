@@ -20,6 +20,7 @@ app.use('/tenant/facility', express.static('uploads'));
 app.use('/owner/editFacility', express.static('uploads'));
 app.use('/report', express.static('uploads'));
 app.use('/inbox', express.static('uploads'));
+app.use('/announcement', express.static('uploads'));
 
 
 // routes

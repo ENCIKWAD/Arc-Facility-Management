@@ -20,9 +20,9 @@ let upload = multer({
 router.get('/', (req, res) => res.render('login'))
 router.post('/', User.login);
 router.get('/notAllowed', (req, res) => res.status(403).send('notAllowed'));
-router.get('/announcement', User.fetchAnnouncements);
 router.post('/signUp', User.signUp);
 router.post('/report', User.createReport);
 router.patch('/manageAccount', upload, User.manageAccount);
+router.get('/announcement', User.fetchAnnouncements);
 
 module.exports = router;

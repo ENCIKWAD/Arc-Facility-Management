@@ -1,7 +1,10 @@
 <template>
     <div class="background-2">
-        <h1>Create Announcement</h1>
-        <v-card class="pa-4 card" rounded="xl">
+      <v-btn @click="$router.go(-1)" :ripple="false" variant="plain">
+        <v-icon  size="90">mdi-arrow-left-circle</v-icon>
+      </v-btn>
+        <h1 class="margin-top">Create Announcement</h1>
+        <v-card class="pa-4 card margin-top" rounded="xl">
             <v-form ref="form">
                 <v-alert v-model="toggleAlert" type="error">
                     {{ errorMessage }} <!-- Use errorMessage here -->
@@ -15,6 +18,7 @@
                     bg-color="#D9D9D9"
                     rounded="xl"
                     required
+                    variant="outlined"
                     ></v-text-field>
 
                     <v-card-title>Announcement Message</v-card-title>
@@ -26,6 +30,7 @@
                         rounded="xl"
                         :counter="400"
                         required
+                        variant="outlined"
                         ></v-textarea>
                     </v-card-text>
                 <v-card-actions>
@@ -100,6 +105,10 @@
 
 .card {
   margin-left: 20px;
+}
+
+.margin-top{
+  margin-top: 50px;
 }
 
 
