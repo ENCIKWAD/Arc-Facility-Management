@@ -99,6 +99,9 @@ module.exports = class UserController {
         .then((data) => {
           if (data.length) {
             let user = data[0];
+            if(user.isBanned){
+              return res.status(400).json({ message: "This user has been banned" });
+            }
             bcrypt.compare(password, data[0].password).then((result) => {
               // comparing password with hashed password
               if (result) {
