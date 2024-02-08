@@ -15,8 +15,9 @@
         Manage Facility
       </v-btn>
     </div>
-
+    
     <v-container>
+      <p class="title" v-if="this.facilities.length === 0">There are no facilities at the moment.</p>
       <v-row :class="{'margin' : this.$route.query.message}" no-gutters>
         <v-col
           sm="4"
