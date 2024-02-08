@@ -63,7 +63,7 @@
           </v-textarea>
           <div class="select-container">
             <v-autocomplete
-              v-if="selected === ownerReportTypes[0]"
+              v-if="selected === ownerReportTypes[0] || selected === tenantReportTypes[0]"
               v-model="selectedFacility"
               @update:model-value="handleFacilityChange"
               @focus="selectedFacility = ''"
@@ -199,6 +199,8 @@ export default {
           message: this.report.message,
           userId: this.user._id
         };
+
+        //v-if="selected === ownerReportTypes[0] || selected === tenantReportTypes[0]"
 
         if (this.report.tenantId) {
           reportData.tenantId = this.report.tenantId;

@@ -132,6 +132,9 @@ module.exports = class UserController {
       } else if (report.type == "Report Tenants" && !report.tenantId) {
         return res.status(403).json({ message: "Please select a tenant" });
       }
+      else if(report.type == "Report Incident" && !report.facilityId){
+        return res.status(404).json({ message: "Please select a facility" });
+      }
 
       const existingReport = await Report.findOne({
         title: report.title,

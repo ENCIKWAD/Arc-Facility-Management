@@ -78,7 +78,7 @@
             color="primary"
             variant="outlined"
             bg-color="#DCDCDC"
-            @change="handleSelect"
+            @update:model-value="handleSelect"
             v-model="selected"
             :items="facilityTypes"
           ></v-select>
@@ -179,7 +179,8 @@ export default {
     setAvailability() {
       this.facility.available = !this.facility.available;
     },
-    handleSelect() {
+    handleSelect(selected) {
+      this.selected = selected;
       this.facility.type = this.selected;
     },
   },

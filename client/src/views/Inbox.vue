@@ -34,7 +34,7 @@
         <div v-if="selectedUser" class="right-container">
           <div class="avatar-flex">
             <v-avatar class="mr-4" size="60">
-              <v-img :src="this.selectedUser.image"></v-img>
+              <v-img cover :src="this.selectedUser.image"></v-img>
             </v-avatar>
             <div>
               <p style="font-size: 25px; text-align: end">

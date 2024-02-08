@@ -46,7 +46,7 @@
     <v-menu >
       <template v-slot:activator="{ props }" >
       <v-btn v-bind="props" :ripple="false" class="userDiv">
-        <img :src="userImage" class="profile-image">
+        <v-img cover :src="userImage" class="profile-image" ></v-img>
         <p class="userName ml-3" >{{ userName }}</p>
 
       </v-btn>

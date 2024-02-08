@@ -8,7 +8,7 @@
         <v-card class="pa-7 manage-container" height="880" width="800">
           <v-card-title class="text-center">Manage Account</v-card-title>
           <v-avatar class="border-avatar" size="200">
-            <v-img :src="imageSrc"></v-img>
+            <v-img cover :src="imageSrc"></v-img>
           </v-avatar>
           <div class="file-input">
             <v-file-input
@@ -62,9 +62,10 @@
           <div class="password">
             <v-text-field
               v-if="this.togglePassword"
-              :rules="rules"
+              :rules="passwordRules"
               v-model="this.new_password"
               variant="outlined"
+              type="password"
               label="New Password"
               color="primary"
               bg-color="#DCDCDC"
@@ -101,6 +102,10 @@ export default {
   data() {
     return {
       rules: [(value) => !!value || "This field is Required."],
+      passwordRules: [
+        (v) => !!v || "This is required",
+        (v) => v.length >= 8 || "Password must be at least 8 characters",
+      ],
       user: {
         _id: "",
         fName: "",
@@ -113,6 +118,7 @@ export default {
       togglePassword: false,
         toggleAlert: false,
         message: "",
+
     };
   },
   async created() {

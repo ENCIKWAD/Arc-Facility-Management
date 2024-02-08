@@ -3,7 +3,7 @@
         <div class="avatar-inbox">
 
             <v-avatar>
-                <v-img :src="user.image"></v-img>
+                <v-img cover :src="user.image"></v-img>
             </v-avatar>
             <div>
                 <p>{{ user.email }}</p>
