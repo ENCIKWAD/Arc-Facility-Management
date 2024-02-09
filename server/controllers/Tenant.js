@@ -69,31 +69,31 @@ module.exports = class TenantController {
       const request = req.body;
       const facilityId = req.params.id;
 
-      const isLeased = await Request.findOne({
-        facilityId: facilityId,
-        $or: [
-          {
-            startDate: { $lte: request.endDate },
-            endDate: { $gte: request.startDate },
-          },
-          {
-            startDate: { $gte: request.startDate, $lte: request.endDate },
-            endDate: { $gte: request.endDate },
-          },
-          {
-            startDate: { $lte: request.startDate },
-            endDate: { $lte: request.endDate, $gte: request.startDate },
-          },
-        ],
-      });
+      // const isLeased = await Request.findOne({
+      //   facilityId: facilityId,
+      //   $or: [
+      //     {
+      //       startDate: { $lte: request.endDate },
+      //       endDate: { $gte: request.startDate },
+      //     },
+      //     {
+      //       startDate: { $gte: request.startDate, $lte: request.endDate },
+      //       endDate: { $gte: request.endDate },
+      //     },
+      //     {
+      //       startDate: { $lte: request.startDate },
+      //       endDate: { $lte: request.endDate, $gte: request.startDate },
+      //     },
+      //   ],
+      // });
 
-      if (isLeased) {
-        return res
-          .status(400)
-          .json({
-            message: "This facility is already leased within this time",
-          });
-      }
+      // if (isLeased) {
+      //   return res
+      //     .status(400)
+      //     .json({
+      //       message: "This facility is already leased within this time",
+      //     });
+      // }
       const newRequest = await Request.create(request);
       newRequest.status = "Pending"
       newRequest.title = "Lease Request"

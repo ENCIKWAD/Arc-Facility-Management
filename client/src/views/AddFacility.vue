@@ -1,15 +1,15 @@
 <template>
   <div class="background-2">
-    <v-btn :to="{name: 'manageFacility'}" :ripple="false" variant="plain">
-        <v-icon  size="90">mdi-arrow-left-circle</v-icon>
-      </v-btn>
+    <v-btn :to="{ name: 'manageFacility' }" :ripple="false" variant="plain">
+      <v-icon size="90">mdi-arrow-left-circle</v-icon>
+    </v-btn>
     <div class="flex pa-8">
       <v-form ref="form" @submit.prevent="submitForm">
         <v-card class="pa-7" height="1150" width="500">
           <v-card-title class="text-center">Add Facility</v-card-title>
           <v-img height="250" width="500" :src="imageSrc"></v-img>
           <v-file-input
-          :rules="rules"
+            :rules="rules"
             @change="selectFile"
             class="mt-4 mb-8"
             prepend-icon="mdi-camera"
@@ -19,8 +19,8 @@
             label="Your Image"
           ></v-file-input>
           <v-text-field
-          :rules="rules"
-          prepend-icon="mdi-note"
+            :rules="rules"
+            prepend-icon="mdi-note"
             v-model="facility.title"
             class="form-text-field"
             variant="outlined"
@@ -29,8 +29,8 @@
             bg-color="#DCDCDC"
           ></v-text-field>
           <v-textarea
-          :rules="rules"
-          prepend-icon="mdi-note-outline"
+            :rules="rules"
+            prepend-icon="mdi-note-outline"
             v-model="facility.description"
             color="primary"
             bg-color="#DCDCDC"
@@ -38,8 +38,8 @@
             label="Description"
           ></v-textarea>
           <v-text-field
-          :rules="rules"
-          prepend-icon="mdi-crosshairs-gps"
+            :rules="rules"
+            prepend-icon="mdi-crosshairs-gps"
             v-model="facility.location"
             class="form-text-field"
             variant="outlined"
@@ -49,8 +49,8 @@
           ></v-text-field>
           <div class="small-field">
             <v-text-field
-            :rules="rules"
-            prepend-icon="mdi-account"
+              :rules="rule"
+              prepend-icon="mdi-account"
               v-model="facility.minCap"
               type="number"
               class="form-text-field"
@@ -60,8 +60,8 @@
               bg-color="#DCDCDC"
             ></v-text-field>
             <v-text-field
-            prepend-icon="mdi-cash-usd-outline"
-            :rules="rules"
+              prepend-icon="mdi-cash-usd-outline"
+              :rules="rules"
               v-model="facility.price"
               type="number"
               class="form-text-field"
@@ -73,8 +73,8 @@
           </div>
 
           <v-select
-          prepend-icon="mdi-format-list-bulleted-type"
-          :rules="selectedRules"
+            prepend-icon="mdi-format-list-bulleted-type"
+            :rules="selectedRules"
             color="primary"
             variant="outlined"
             bg-color="#DCDCDC"
@@ -83,7 +83,9 @@
             :items="facilityTypes"
           ></v-select>
           <div class="av-flex">
-            <v-btn color="#5F3DAC" @click="setAvailability">Set Availability</v-btn>
+            <v-btn color="#5F3DAC" @click="setAvailability"
+              >Set Availability</v-btn
+            >
             <p v-if="!facility.available" class="red">Unavailable</p>
             <p v-if="facility.available" class="green">Available</p>
           </div>
@@ -118,7 +120,10 @@ export default {
   data() {
     return {
       rules: [(value) => !!value || "This field is Required."],
-      selectedRules: [(value) => value !== "Select a facility type" || "This field is Required."],
+      selectedRules: [
+        (value) =>
+          value !== "Select a facility type" || "This field is Required.",
+      ],
       selected: "Select a facility type",
       message: "",
       toggleAlert: false,
@@ -139,14 +144,15 @@ export default {
     facilityTypes() {
       return Object.values(FacilityType);
     },
-    imageSrc(){
-        return this.image ? URL.createObjectURL(this.image) : "/imgs/no-image.png"
-    }
+    imageSrc() {
+      return this.image
+        ? URL.createObjectURL(this.image)
+        : "/imgs/no-image.png";
+    },
   },
   methods: {
     async submitForm() {
-      try{
-
+      try {
         let formData = new FormData();
         formData.append("title", this.facility.title);
         formData.append("image", this.image);
@@ -156,21 +162,22 @@ export default {
         formData.append("price", this.facility.price);
         formData.append("type", this.facility.type);
         formData.append("available", this.facility.available);
-  
-        if(this.$refs.form.validate()){
-          const response = await OwnerAPI.addFacility(formData);
-          this.$router.push({name: "ownerHome", query: {message: response.message}});
-      }
 
-      }
-      catch(err){
+        if (this.$refs.form.validate()) {
+          const response = await OwnerAPI.addFacility(formData);
+          this.$router.push({
+            name: "ownerHome",
+            query: { message: response.message },
+          });
+        }
+      } catch (err) {
         this.toggleAlert = true;
         this.message = err.response.data.message;
         this.$nextTick(() => {
-            setTimeout(() => {
-                this.toggleAlert = false;
-            }, 5000)
-        })
+          setTimeout(() => {
+            this.toggleAlert = false;
+          }, 5000);
+        });
       }
     },
     selectFile(file) {

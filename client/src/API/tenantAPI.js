@@ -12,4 +12,9 @@ export default class TenantAPI{
         const res = await axios.post(url, newSearch);
         return res.data;
     }
+
+    static async createRequest(id, request) {
+        const res = await axios.post(url + "/lease/" + id, request);
+        return res.data;
+    }
 }

@@ -41,7 +41,7 @@
           formatAvailability(facility.available)
         }}</v-card-title>
         <div class="flex-btn">
-          <v-btn
+          <v-btn :to="{ name: 'leaseRequest', params: { id: facility._id } }"
             v-if="user.role != 'owner'"
             :disabled="!facility.available"
             color="#5F3DAC"

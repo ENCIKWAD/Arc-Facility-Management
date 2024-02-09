@@ -12,9 +12,10 @@ const RequestSchema = new mongoose.Schema({
     },
     minCap: Number,
     price: Number,
-    startDate: Date,
-    endDate: Date,
-    status: String
+    date: String,
+    capacity: Number,
+    duration: Number,
+    time: String,
     
 });
 

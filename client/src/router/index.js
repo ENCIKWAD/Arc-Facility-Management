@@ -13,6 +13,7 @@ import DeleteFacility from '@/views/DeleteFacility.vue';
 import Announcement from '@/views/Announcement.vue';
 import Report from '@/views/Report.vue';
 import Inbox from '@/views/Inbox.vue';
+import LeaseRequest from '@/views/LeaseRequest.vue';
 import DeleteReport from '@/views/DeleteReport.vue';
 import ManageAnnouncement from '@/views/ManageAnnouncement.vue';
 import AddAnnouncement from '@/views/AddAnnouncement.vue';
@@ -43,6 +44,11 @@ const routes = [
     path: '/tenant',
     name: 'tenantHome',
     component: TenantHome
+  },
+  {
+    path: '/tenant/facility/leaseRequest/:id',
+    name: 'leaseRequest',
+    component: LeaseRequest
   },
   {
     path: '/owner',
@@ -133,7 +139,8 @@ const routes = [
     path: '/manageAccount',
     name: 'manageAccount',
     component: ManageAccount
-  }
+  },
+
 ]
 
 const router = createRouter({

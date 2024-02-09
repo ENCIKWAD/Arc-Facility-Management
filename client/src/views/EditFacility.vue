@@ -110,77 +110,77 @@
     </div>
   </template>
   
-  <script>
-  import { FacilityType } from "@/FacilityType";
-  import OwnerAPI from "../API/ownerAPI.js";
-  export default {
-    name: "editFacility",
-    async created(){
-        try{
-            const response = await OwnerAPI.getFacilityById(this.$route.params.id);
-            this.facility = response;
-            this.selected = response.type;
-            this.facility.image = response.image;
-            this.old_image = response.image;
-        }
-        catch(err){
-            console.log(err)
-        }
-    },
-    data() {
-      return {
-        rules: [(value) => !!value || "This field is Required."],
-        selectedRules: [(value) => value !== "Select a facility type" || "This field is Required."],
-        selected: "Select a facility type",
-        message: "",
-        toggleAlert: false,
-        facility: {
-          title: "",
-          image: "",
-          description: "",
-          location: "",
-          minCap: null,
-          price: null,
-          type: "",
-          available: false,
-        },
-        old_image: "",
-    };
-    },
-    computed: {
-      facilityTypes() {
-        return Object.values(FacilityType);
+<script>
+import { FacilityType } from "@/FacilityType";
+import OwnerAPI from "../API/ownerAPI.js";
+export default {
+  name: "editFacility",
+  async created() {
+    try {
+      const response = await OwnerAPI.getFacilityById(this.$route.params.id);
+      this.facility = response;
+      this.selected = response.type;
+      this.facility.image = response.image;
+      this.old_image = response.image;
+    }
+    catch (err) {
+      console.log(err)
+    }
+  },
+  data() {
+    return {
+      rules: [(value) => !!value || "This field is Required."],
+      selectedRules: [(value) => value !== "Select a facility type" || "This field is Required."],
+      selected: "Select a facility type",
+      message: "",
+      toggleAlert: false,
+      facility: {
+        title: "",
+        image: "",
+        description: "",
+        location: "",
+        minCap: null,
+        price: null,
+        type: "",
+        available: false,
       },
-      imageSrc(){
-        if(this.facility.image instanceof File){
-            return URL.createObjectURL(this.facility.image)
-        }
-        else if(this.facility.image){
-            return this.facility.image
-        }
-        else{
-            return "/imgs/no-image.png"
-        }
-      }
+      old_image: "",
+    };
+  },
+  computed: {
+    facilityTypes() {
+      return Object.values(FacilityType);
     },
-    methods: {
-      async submitForm() {
-        try{
-  
-          let formData = new FormData();
-          formData.append("title", this.facility.title);
-          formData.append("image", this.facility.image);
-          formData.append("description", this.facility.description);
-          formData.append("old_image", this.old_image)
-          formData.append("location", this.facility.location);
-          formData.append("minCap", this.facility.minCap);
-          formData.append("price", this.facility.price);
-          formData.append("type", this.facility.type);
-          formData.append("available", this.facility.available);
-    
-          if(this.$refs.form.validate()){
-            const response = await OwnerAPI.editFacility(this.facility._id, formData);
-            this.$router.push({name: "manageFacility", query: {message: response.message}});
+    imageSrc() {
+      if (this.facility.image instanceof File) {
+        return URL.createObjectURL(this.facility.image)
+      }
+      else if (this.facility.image) {
+        return this.facility.image
+      }
+      else {
+        return "/imgs/no-image.png"
+      }
+    }
+  },
+  methods: {
+    async submitForm() {
+      try {
+
+        let formData = new FormData();
+        formData.append("title", this.facility.title);
+        formData.append("image", this.facility.image);
+        formData.append("description", this.facility.description);
+        formData.append("old_image", this.old_image)
+        formData.append("location", this.facility.location);
+        formData.append("minCap", this.facility.minCap);
+        formData.append("price", this.facility.price);
+        formData.append("type", this.facility.type);
+        formData.append("available", this.facility.available);
+
+        if (this.$refs.form.validate()) {
+          const response = await OwnerAPI.editFacility(this.facility._id, formData);
+          this.$router.push({ name: "manageFacility", query: { message: response.message } });
         }
   
         }
@@ -200,60 +200,59 @@
       setAvailability() {
         this.facility.available = !this.facility.available;
       },
-      handleSelect(selected) {
-        this.selected = selected;
+      handleSelect() {
         this.facility.type = this.selected;
       },
     },
   };
   </script>
   
-  <style>
-  .background-1 {
-    background-color: #f1ebe8;
-    min-height: 100vh;
-  }
+<style>
+.background-1 {
+  background-color: #f1ebe8;
+  min-height: 100vh;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.av-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.small-field {
+  width: 20vw;
+}
+
+.center-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+</style>
   
-  .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .av-flex {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .small-field {
-    width: 20vw;
-  }
-  
-  .center-btn {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .red {
-    color: red;
-  }
-  
-  .green {
-    color: green;
-  }
-  </style>
-  
-  <style scoped>
-  .alert {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-  </style>
+<style scoped>
+.alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+</style>
