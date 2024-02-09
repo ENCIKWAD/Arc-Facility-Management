@@ -87,9 +87,9 @@ module.exports = class AdminController{
 
     static async editTenant(req, res){
         try{
-            const id = req.body._id;
-            const tenant = req.body;
-            await User.findByIdAndUpdate(id, tenant);
+            const id = req.params.id;
+            const { isBanned } = req.body;
+            await User.findByIdAndUpdate(id, { isBanned });
             return res.status(200).json({message: "Tenant updated successfully"});
         }
         catch(err){
@@ -97,21 +97,29 @@ module.exports = class AdminController{
         }
     }
 
+    static async fetchAnnouncements(req, res) {
+        try {
+            const announcements = await Announcement.find();
+            return res.status(200).json(announcements);
+        } catch (err) {
+            return res.status(500).json({ message: err.message });
+        }
+    }
 
     static async createAnnouncement(req, res){
-    try{
-        const { title, message } = req.body;
-        if (!title || !message) {
-            return res.status(400).json({message: "Title and message are required"});
+        try{
+            const announcementData = req.body;
+            if (!announcementData.title || !announcementData.message) {
+                return res.status(400).json({message: "Title and message are required"});
+            }
+            const announcement = new Announcement(announcementData);
+            await announcement.save();
+            return res.status(200).json({message: "Announcement created successfully"});
         }
-        const announcement = new Announcement({ title, message });
-        await announcement.save();
-        return res.status(200).json({message: "Announcement created successfully"});
+        catch(err){
+            return res.status(400).json({message: err.message});
+        }
     }
-    catch(err){
-        return res.status(400).json({message: err.message});
-    }
-}
 
     static async getAnnouncementById(req, res){
         try{

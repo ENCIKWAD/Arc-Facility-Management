@@ -24,6 +24,7 @@
                     <v-card-title>Announcement Message</v-card-title>
                     <v-textarea
                     :rules="rules"
+                    :maxlength="400"
                         label="Message"
                         v-model="message"
                         bg-color="#D9D9D9"
@@ -35,8 +36,8 @@
                     </v-card-text>
                 <v-card-actions>
 
-                        <v-checkbox label="Schedule for later"></v-checkbox>
-        
+                        <v-checkbox label="Schedule for later" v-model="scheduleLater"></v-checkbox>
+
                         <v-btn 
                             color="#5F3DAC"
                             variant="elevated"
@@ -47,6 +48,13 @@
                 </v-card-actions>
             </v-form>
         </v-card>
+          <!-- New v-card that shows up when scheduleLater is true -->
+          <v-card v-if="scheduleLater" class="pa-4 card margin-top" rounded="xl">
+              <v-card-title>Schedule Date</v-card-title>
+              <v-card-text>
+                <v-date-picker v-model="scheduledDate"></v-date-picker>
+              </v-card-text>
+            </v-card>
     </div>
   </template>
   

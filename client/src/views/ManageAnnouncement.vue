@@ -67,8 +67,8 @@
                             <v-btn
                                 :to="{ name: 'deleteAnnouncement', params: { id: announcement._id }}"
                                 rounded="l"
-                                color="red"
-                            ><v-icon>mdi-delete</v-icon></v-btn></td>
+                                color="red">
+                            <v-icon>mdi-delete</v-icon></v-btn></td>
                     </tr>
 
                 </tbody>
@@ -110,6 +110,7 @@ export default {
     this.user = JSON.parse(sessionStorage.getItem('user'));
     try {
       this.announcements = await AdminAPI.fetchAnnouncement();
+      console.log(this.announcements);
     } catch (error) {
       console.log(error);
     }
@@ -189,47 +190,12 @@ export default {
   right: 0;
   z-index: 1000;
 }
+
+.reset-icon {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
 </style>
-
-<!-- const state = reactive({
-    searchBar: '',
-    select: '',
-    items: ['Title', 'Date'],
-    announcements: [],
-    itemsToDisplay: [],
-});
-
-const getAnnouncements = async () => {
-    const response = await AdminAPI.getAnnouncements();
-    state.announcements = response.data;
-    state.itemsToDisplay = response.data;
-};
-
-const search = () => {
-    if (state.searchBar === '') {
-        state.itemsToDisplay = state.announcements;
-    } else {
-        state.itemsToDisplay = state.announcements.filter((announcement) => {
-            return announcement.title.toLowerCase().includes(state.searchBar.toLowerCase());
-        });
-    }
-};
-
-const handleSort = () => {
-    if (state.select === 'Title') {
-        state.itemsToDisplay = state.itemsToDisplay.sort((a, b) => {
-            return a.title.localeCompare(b.title);
-        });
-    } else if (state.select === 'Date') {
-        state.itemsToDisplay = state.itemsToDisplay.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date);
-        });
-    }
-};
-
-getAnnouncements();
-return {
-    state,
-    search,
-    handleSort,
-}; -->

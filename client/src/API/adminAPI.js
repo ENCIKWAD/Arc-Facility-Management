@@ -48,6 +48,20 @@ export default class AdminAPI{
         es.data
     }
 
+    static async fetchTenants(){
+        const res = await axios.get(url + '/manageTenant');
+        return res.data;
+    }
+
+    static async updateTenant(id, update) {
+        try {
+            const response = await axios.patch(`/admin/manageTenant/${id}`, update);
+            return response.data;
+          } catch (error) {
+            throw error;
+          }
+      }
+
     static async sort(sort){
         const newSort = {sort: sort}
         const res = await axios.post(url + '/manageAnnouncement', newSort);

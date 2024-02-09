@@ -19,6 +19,7 @@ import AddAnnouncement from '@/views/AddAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import ManageAccount from '@/views/ManageAccount.vue';
 import DeleteAnnouncement from '@/views/DeleteAnnouncement.vue';
+import MangeTenant from '@/views/ManageTenant.vue';
 
 const routes = [
   {
@@ -107,6 +108,11 @@ const routes = [
     path: '/admin/deleteAnnouncement/:id',
     name: 'deleteAnnouncement',
     component: DeleteAnnouncement
+  },
+  {
+    path: '/admin/manageTenant/',
+    name: 'manageTenant',
+    component: MangeTenant
   },
   {
     path: '/report',
