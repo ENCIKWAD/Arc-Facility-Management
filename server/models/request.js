@@ -15,7 +15,8 @@ const RequestSchema = new mongoose.Schema({
     date: String,
     capacity: Number,
     duration: Number,
-    time: String,
+    startTime: Date,
+    endTime: Date,
     
 });
 
