@@ -8,6 +8,7 @@
     ></navBar>
 
     <v-container>
+      <p v-if="!this.announcements.length > 0" class="title">There are no announcements at this moment</p>
       <AnnouncementBox
         v-for="announcement in announcements"
         :key="announcement"

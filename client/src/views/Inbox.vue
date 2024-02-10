@@ -162,17 +162,6 @@ export default {
           endDate: new Date(),
           status: "pending",
         },
-        {
-          _id: "222",
-          title: "lease request",
-          facilityId: "65a55549d329cca9b53fdd2b",
-          tenantId: "65b147f4ae5704d94f8f1206",
-          minCap: 5,
-          price: 100,
-          startDate: new Date(),
-          endDate: new Date(),
-          status: "pending",
-        },
       ],
     };
   },
@@ -297,6 +286,7 @@ export default {
   background-color: white;
   flex-direction: column;
   border-radius: 19px;
+  
 }
 
 .inbox-title {
@@ -316,12 +306,14 @@ export default {
 
 .left-container {
   flex: 1 0 30%;
-  border: black solid 1px;
+  width: 100%;
+
 }
 
 .right-container {
   flex: 2 0 60%;
   margin-left: 20px;
+  border: 1px solid black;
 }
 
 .report-container {
@@ -345,6 +337,7 @@ export default {
   width: 100%;
   background-color: #a5a5a5;
   height: 70px;
+
 }
 
 .avatar-flex {

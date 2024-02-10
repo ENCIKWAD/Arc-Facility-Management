@@ -1,6 +1,6 @@
 <template>
   <div class="background-2">
-    <h1>Admin Home page</h1>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
     <v-card class="mx-auto" max-width="1000" rounded>
       <v-card-title>
         <div class="overline mb-4"></div>
@@ -30,7 +30,7 @@
           <v-flex xs4>
             <div class="button-container">
               <v-btn
-                :to="{ name: 'report' }"
+                :to="{ name: 'inbox' }"
                 block
                 class="text-center"
                 variant="elevated"
@@ -66,6 +66,28 @@
     </v-card>
   </div>
 </template>
+
+<script>
+import navBar from "../components/navBar.vue";
+export default{
+  name: 'adminHome',
+  data(){
+    return{
+      user: null
+    }
+  },
+  components: {
+    navBar
+  },
+  computed: {
+    user() {
+      return JSON.parse(sessionStorage.getItem('user'));
+    }
+  
+  }
+}
+
+</script>
 
 <style>
 .background-2 {

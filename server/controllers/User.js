@@ -136,16 +136,6 @@ module.exports = class UserController {
         return res.status(404).json({ message: "Please select a facility" });
       }
 
-      const existingReport = await Report.findOne({
-        title: report.title,
-      });
-
-      if (existingReport) {
-        return res
-          .status(405)
-          .json({ message: "You have already made this report" });
-      }
-
       const newReport = await Report.create(report);
 
       return res

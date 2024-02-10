@@ -9,7 +9,7 @@
     width="150"
   ></v-img>
 </v-btn>
-    <div class="searchBar" :class="{'searchBar-results' : !state.noSearch && state.searchResults.length > 0}">
+    <div v-if="this.userRole !== 'admin'" class="searchBar" :class="{'searchBar-results' : !state.noSearch && state.searchResults.length > 0}">
       <v-text-field
       @keyup="search"
       v-model="searchBar"
@@ -36,7 +36,7 @@
       </template>
     </div>
     <v-btn :to="{name: 'announcement'}" :ripple="false" variant="plain" color="black" >Announcement</v-btn>
-    <v-btn :to="{name: 'report'}" :ripple="false" variant="plain" color="black" >Report</v-btn>
+    <v-btn v-if="this.userRole !== 'admin'" :to="{name: 'report'}" :ripple="false" variant="plain" color="black" >Report</v-btn>
     <v-btn :to="{name: 'inbox'}" :ripple="false" variant="plain" color="black">
       <v-badge :content="content" >
 

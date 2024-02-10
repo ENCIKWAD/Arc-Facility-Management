@@ -200,8 +200,6 @@ export default {
           userId: this.user._id
         };
 
-        //v-if="selected === ownerReportTypes[0] || selected === tenantReportTypes[0]"
-
         if (this.report.tenantId) {
           reportData.tenantId = this.report.tenantId;
         }
