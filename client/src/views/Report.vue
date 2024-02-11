@@ -1,10 +1,7 @@
 <template>
   <div class="background-1">
-    <navBar
-      :userName="user.fName"
-      :userImage="user.image"
-      :userRole="user.role"
-    ></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
+
     <v-container class="d-flex justify-center align-center">
       <v-form ref="form" @submit.prevent="submitReport">
         <v-card

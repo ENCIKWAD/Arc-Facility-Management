@@ -111,7 +111,7 @@ module.exports = class OwnerController {
 
   static async editRequest(req, res) {
     try {
-      const id = req.params.id;
+      const id = req.body._id
       const leaseRequest = req.body;
       await LeaseRequest.findByIdAndUpdate(id, leaseRequest);
       return res.status(200).json({ message: "Request edited successfully" });

@@ -1,6 +1,6 @@
 <template>
   <div class="background-1 pa-4">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
 
     <v-container
       :class="{ margin: this.$route.query.message }"
@@ -88,11 +88,11 @@
               <v-card-title>{{ this.selectedFacility.title }}</v-card-title>
               <v-card-text
                 >Date:
-                {{ formatDateOnly(this.selectedInbox.startDate) }}</v-card-text
+                {{ formatDateOnly(this.selectedInbox.startTime) }}</v-card-text
               >
               <v-card-text>Duration: {{ duration }}</v-card-text>
               <v-card-text
-                >Capacity: {{ this.selectedInbox.minCap }}</v-card-text
+                >Capacity: {{ this.selectedInbox.capacity }}</v-card-text
               >
               <v-card-text
                 >Location: {{ this.selectedFacility.location }}</v-card-text
@@ -106,12 +106,33 @@
               </div>
               <v-card-text
                 style="color: green; font-size: 30px"
-                v-if="toggleBtn && this.selectedInbox.status === 'accepted'"
+                v-if="toggleBtn && this.selectedInbox.status === 'Accepted'"
                 >Lease {{ this.selectedInbox.status }}</v-card-text
               >
               <v-card-text
                 style="color: red; font-size: 30px"
-                v-if="toggleBtn && this.selectedInbox.status === 'rejected'"
+                v-if="toggleBtn && this.selectedInbox.status === 'Rejected'"
+                >Lease {{ this.selectedInbox.status }}</v-card-text
+              >
+            </div>
+            <div v-if="this.user.role === 'tenant' && this.selectedFacility != null" >
+              <v-card-title>{{ this.selectedFacility.title }}</v-card-title>
+              <v-card-text>Dear {{ this.selectedUser.fName }}, your Lease request is {{ this.selectedInbox.status }}</v-card-text>
+              <v-card-text>Date:  {{ formatDateOnly(this.selectedInbox.date) }}</v-card-text>
+              <v-card-text
+                style="color: green; font-size: 30px"
+                v-if="this.selectedInbox.status === 'Accepted'"
+                >Lease {{ this.selectedInbox.status }}</v-card-text
+              >
+              <v-card-text v-if="this.selectedInbox.status === 'Accepted'" >Lease ID: {{ this.selectedInbox._id }}</v-card-text>
+              <v-card-text
+                style="color: red; font-size: 30px"
+                v-if="this.selectedInbox.status === 'Rejected'"
+                >Lease {{ this.selectedInbox.status }}</v-card-text
+              >
+              <v-card-text
+                style="color: #d4d40f; font-size: 30px"
+                v-if="this.selectedInbox.status === 'Pending'"
                 >Lease {{ this.selectedInbox.status }}</v-card-text
               >
             </div>
@@ -139,6 +160,8 @@
 import AdminAPI from "@/API/adminAPI";
 import navBar from "../components/navBar.vue";
 import InboxList from "@/components/InboxList.vue";
+import TenantAPI from "@/API/tenantAPI";
+import OwnerAPI from "@/API/ownerAPI";
 export default {
   name: "inbox",
   data() {
@@ -150,19 +173,6 @@ export default {
       selectedUser: null,
       selectedFacility: null,
       toggleBtn: false,
-      temp: [
-        {
-          _id: "123",
-          title: "lease request",
-          facilityId: "65a55549d329cca9b53fdd2b",
-          tenantId: "65b147f4ae5704d94f8f1206",
-          minCap: 5,
-          price: 100,
-          startDate: new Date(),
-          endDate: new Date(),
-          status: "pending",
-        },
-      ],
     };
   },
   components: {
@@ -178,17 +188,20 @@ export default {
         let user = await AdminAPI.getUserById(this.inboxes[i].userId);
         this.userInbox.push(user);
       }
-      console.log(this.userInbox)
     } else if (this.user.role === "owner") {
-      this.inboxes = this.temp;
+      this.inboxes = await OwnerAPI.fetchRequests();
       this.inboxes = this.inboxes
-        .filter((item) => item.status === "pending")
         .sort((a, b) => new Date(a.date) - new Date(b.date));
       for (let i = 0; i < this.inboxes.length; i++) {
         let user = await AdminAPI.getUserById(this.inboxes[i].tenantId);
         this.userInbox.push(user);
       }
     } else {
+      this.inboxes = await TenantAPI.fetchRequests(this.user._id);
+      for (let i = 0; i < this.inboxes.length; i++) {
+        let user = await AdminAPI.getUserById(this.inboxes[i].tenantId);
+        this.userInbox.push(user);
+      }
     }
   },
   methods: {
@@ -203,8 +216,8 @@ export default {
         this.selectedFacility = null;
       }
       if (
-        this.selectedInbox.status === "accepted" ||
-        this.selectedInbox.status === "rejected"
+        this.selectedInbox.status === "Accepted" ||
+        this.selectedInbox.status === "Rejected"
       ) {
         this.toggleBtn = true;
       } else {
@@ -236,19 +249,21 @@ export default {
         currency: "MYR",
       });
     },
-    handleReject() {
+    async handleReject() {
       for (let i = 0; i < this.inboxes.length; i++) {
         if (this.inboxes[i]._id === this.selectedInbox._id) {
-          this.inboxes[i].status = "rejected";
+          this.inboxes[i].status = "Rejected";
+          const response = await OwnerAPI.editRequest(this.inboxes[i])
           this.toggleBtn = true;
           break;
         }
       }
     },
-    handleAccept() {
+    async handleAccept() {
       for (let i = 0; i < this.inboxes.length; i++) {
         if (this.inboxes[i]._id === this.selectedInbox._id) {
-          this.inboxes[i].status = "accepted";
+          this.inboxes[i].status = "Accepted";
+          const response = await OwnerAPI.editRequest(this.inboxes[i])
           this.toggleBtn = true;
           break;
         }
@@ -257,8 +272,8 @@ export default {
   },
   computed: {
     duration() {
-      let start = new Date(this.selectedInbox.startDate);
-      let end = new Date(this.selectedInbox.endDate);
+      let start = new Date(this.selectedInbox.startTime);
+      let end = new Date(this.selectedInbox.endTime);
       let startTime = start.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "numeric",

@@ -9,9 +9,9 @@
                 <p>{{ user.email }}</p>
                 <p style="color: #d4d40f" v-if="inbox.type !== 'Emergency'">{{ inbox.type }}</p>
                 <p style="color: #d10a35;" v-if="inbox.type === 'Emergency'">{{ inbox.type }}</p>
-                <p style="color: #d4d40f" v-if="inbox.status === 'pending'">Lease Request</p>
-                <p style="color: #d10a35" v-if="inbox.status === 'rejected'">Lease Rejected</p>
-                <p style="color: green" v-if="inbox.status === 'accepted'">Lease Accepted</p>
+                <p style="color: #d4d40f" v-if="inbox.status === 'Pending'">Lease Request</p>
+                <p style="color: #d10a35" v-if="inbox.status === 'Rejected'">Lease Rejected</p>
+                <p style="color: green" v-if="inbox.status === 'Accepted'">Lease Accepted</p>
             </div>
         </div>
     </v-list-item>
@@ -22,11 +22,9 @@ export default {
     name: "inbox-list",
     props: {
         user: Object,
-        inbox: Object
-    },
+        inbox: Object    },
     methods: {
         emitData() {
-            console.log(this.inbox)
             this.$emit("data", { user: this.user, inbox: this.inbox });
         }
     }

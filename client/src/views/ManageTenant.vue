@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(tenant, index) in itemsToDisplay" :key="tenant._id">
+                    <tr v-for="tenant in itemsToDisplay" :key="tenant._id">
                     <td>{{ tenants.findIndex(t => t._id === tenant._id) + 1 }}</td>
                     <td class="text-center"> {{ tenant.fName + ' ' + tenant.lName }}</td>
                     <td class="text-center"> {{ tenant.email }}</td>

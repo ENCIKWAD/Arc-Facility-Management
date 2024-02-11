@@ -1,11 +1,7 @@
 <template>
   <div class="background-1 pa-6">
-    <navBar
-      :userName="user.fName"
-      :userImage="user.image"
-      :userRole="user.role"
-      :userLName="user.lName"
-    ></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
+
 
     <v-container>
       <p v-if="!this.announcements.length > 0" class="title">There are no announcements at this moment</p>

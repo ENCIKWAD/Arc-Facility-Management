@@ -1,6 +1,6 @@
 <template>
   <div class="background-1 pa-8">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
     <h1 v-if="loading">Loading...</h1>
     <v-card v-else class="pa-8 flex-card">
       <div>

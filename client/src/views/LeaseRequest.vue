@@ -1,6 +1,6 @@
 <template>
   <div class="background-1 pa-8">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
     <h1 v-if="loading">Loading...</h1>
 
     <v-form @submit.prevent="submitForm">
@@ -37,7 +37,6 @@ make a max capacity update-->
 
               <v-select v-else label="Select" v-model="lease.time" :rules="rules" :items="oneHr"
                 bg-color="#5F3DAC"></v-select>
-              <h2>{{ lease.time }}</h2>
             </div>
           </div>
 
@@ -71,7 +70,6 @@ make a max capacity update-->
 import navBar from "@/components/navBar.vue";
 import TenantAPI from "../API/tenantAPI.js";
 import OwnerAPI from "@/API/ownerAPI";
-import { formatDate, isThisMinute } from "date-fns";
 
 export default {
   name: "tenantHome",
@@ -168,17 +166,24 @@ export default {
     handleCapacity() {
       const min = this.facility.minCap;
     },
+    formatCurrency(value){
+      return value.toLocaleString('en-US', { style: 'currency', currency: 'MYR' })
+    },
 
     async submitForm() {
       let lease = {
         time: this.lease.time,
         startTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.startTime)),
         endTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.endTime)),
+        tenantId: this.user._id,
+        facilityId: this.facility._id,
         duration: this.lease.duration,
         capacity: this.lease.capacity,
         date: this.lease.date,
         price: this.facility.price,
         location: this.facility.location,
+        status: "Pending",
+        title: "Lease Request"
       };
       console.log(this.startTime + "" + this.endTime + "" + lease);
       try {

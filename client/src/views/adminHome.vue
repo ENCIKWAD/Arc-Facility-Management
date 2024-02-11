@@ -1,6 +1,6 @@
 <template>
   <div class="background-2">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName"></navBar>
+    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
     <v-card class="mx-auto" max-width="1000" rounded>
       <v-card-title>
         <div class="overline mb-4"></div>

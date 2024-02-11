@@ -7,6 +7,6 @@ router.post('/', Tenant.search)
 router.get('/facility/:id', Tenant.fetchFacilityByID)
 router.post('/lease/:id', Tenant.createRequest)
 router.post('/report', Tenant.createReport)
-router.get('/inbox', Tenant.fetchRequests)
+router.post('/inbox', Tenant.fetchRequests)
 
 module.exports = router;

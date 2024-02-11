@@ -26,6 +26,6 @@ router.patch('/editFacility/:id', upload, Owner.updateFacility)
 router.delete('/deleteFacility/:id', Owner.deleteFacility)
 router.get('/report', Owner.fetchTenantsByEmail)
 router.get('/inbox', Owner.fetchRequests)
-// router.delete('/inbox', controller.deleteRequest) // needs to be tested
+router.post('/inbox', Owner.editRequest)
 
 module.exports = router;

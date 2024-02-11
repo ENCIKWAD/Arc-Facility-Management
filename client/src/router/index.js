@@ -4,7 +4,6 @@ import OwnerHome from '../views/OwnerHome.vue';
 import AdminHome from '../views/AdminHome.vue';
 import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
-import NotAllowed from '@/views/NotAllowed.vue';
 import ManageFacility from '@/views/ManageFacility.vue';
 import AddFacility from '@/views/AddFacility.vue';
 import Facility from '@/views/Facility.vue';
@@ -28,11 +27,6 @@ const routes = [
     name: 'login',
     component: Login,
     props: true
-  },
-  {
-    path: '/notAllowed',
-    name: 'notAllowed',
-    component: NotAllowed,
   },
   {
     path: '/signUp',

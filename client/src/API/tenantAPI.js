@@ -17,4 +17,9 @@ export default class TenantAPI{
         const res = await axios.post(url + "/lease/" + id, request);
         return res.data;
     }
+
+    static async fetchRequests(id){
+        const res = await axios.post(url + '/inbox', {tenantId: id});
+        return res.data;
+    }
 }

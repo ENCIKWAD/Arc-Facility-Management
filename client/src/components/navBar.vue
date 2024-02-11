@@ -93,6 +93,14 @@ export default {
       const res = await AdminAPI.getReports();
       this.content = res.length;
     }
+    else if(this.userRole === 'owner'){
+      const res = await OwnerAPI.fetchRequests();
+      this.content = res.length;
+    }
+    else{
+      const res = await TenantAPI.fetchRequests(this.userId);
+      this.content = res.length;
+    }
   },
   methods: {
     searched(){
@@ -106,7 +114,7 @@ export default {
       this.$router.push({name: 'login'})
     }
   },
-  props: ["userName", "userImage", "userRole", "userLName"],
+  props: ["userName", "userImage", "userRole", "userLName", "userId"],
   setup(props){
 
     const state = reactive({

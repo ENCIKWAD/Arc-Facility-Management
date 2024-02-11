@@ -95,8 +95,6 @@ module.exports = class TenantController {
       //     });
       // }
       const newRequest = await Request.create(request);
-      newRequest.status = "Pending"
-      newRequest.title = "Lease Request"
       return res
         .status(201)
         .json({ message: "Request created successfully", request: newRequest });
@@ -107,7 +105,7 @@ module.exports = class TenantController {
 
   static async fetchRequests(req, res) {
     try {
-      const requests = await Request.findOne({ tenantId: req.body.tenantId });
+      const requests = await Request.find({ tenantId: req.body.tenantId });
       return res.status(200).json(requests);
     } catch (err) {
       return res.status(400).json({ message: "There are no requests" });

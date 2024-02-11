@@ -17,6 +17,7 @@ const RequestSchema = new mongoose.Schema({
     duration: Number,
     startTime: Date,
     endTime: Date,
+    status: String
     
 });
 

@@ -44,6 +44,16 @@ export default class OwnerAPI{
         return res.data;
     }
 
+    static async fetchRequests(){
+        const res = await axios.get(url + '/inbox');
+        return res.data;
+    }
+
+    static async editRequest(request){
+        const res = await axios.post(url + '/inbox', request);
+        return res.data;
+    }
+
 
 
 
