@@ -17,7 +17,7 @@
                 block
                 class="text-center"
                 variant="elevated"
-                rounded="xl" 
+                rounded="xl"
                 color="#5F3DAC"
               >
                 <v-stack>
@@ -30,7 +30,7 @@
           <v-flex xs4>
             <div class="button-container">
               <v-btn
-                :to="{ name: 'inbox' }"
+                :to="{ name: 'viewRequest' }"
                 block
                 class="text-center"
                 variant="elevated"
@@ -39,7 +39,7 @@
               >
                 <v-stack>
                   <v-icon color="black" size="70">mdi-file-alert</v-icon>
-                  <div>Manage Report</div>
+                  <div>View Lease Request</div>
                 </v-stack>
               </v-btn>
             </div>

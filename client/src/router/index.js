@@ -20,6 +20,7 @@ import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import ManageAccount from '@/views/ManageAccount.vue';
 import DeleteAnnouncement from '@/views/DeleteAnnouncement.vue';
 import MangeTenant from '@/views/ManageTenant.vue';
+import ViewRequest from '@/views/ViewRequest.vue';
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
     path: '/admin/manageTenant/',
     name: 'manageTenant',
     component: MangeTenant
+  },
+  {
+    path: '/admin/viewRequest',
+    name: 'viewRequest',
+    component: ViewRequest
   },
   {
     path: '/report',

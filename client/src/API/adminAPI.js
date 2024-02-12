@@ -53,6 +53,11 @@ export default class AdminAPI{
         return res.data;
     }
 
+    static async getTenantNameById(id) {
+        const res = await axios.get(url + '/manageTenant/' + id + '/name');
+        return res.data;
+    }
+
     static async updateTenant(id, update) {
         try {
             const response = await axios.patch(`/admin/manageTenant/${id}`, update);
@@ -61,6 +66,11 @@ export default class AdminAPI{
             throw error;
           }
       }
+
+      static async fetchRequests(){
+        const res = await axios.get(url + '/viewRequest');
+        return res.data;
+    }
 
     static async sort(sort){
         const newSort = {sort: sort}

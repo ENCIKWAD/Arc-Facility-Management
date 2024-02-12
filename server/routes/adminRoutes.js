@@ -10,7 +10,9 @@ router.delete('/manageAnnouncement/deleteAnnouncement/:id', Admin.deleteAnnounce
 
 router.get('/manageTenant', Admin.fetchTenants)
 router.patch('/manageTenant/:id', Admin.editTenant)
+router.get('/manageTenant/:id/name', Admin.getTenantNameById)
 
+router.get('/viewRequest', Admin.fetchRequests)
 
 router.get('/inbox', Admin.fetchReports)
 router.delete('/inbox/:id', Admin.deleteReport)

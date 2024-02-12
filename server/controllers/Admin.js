@@ -2,6 +2,8 @@ const Report = require ('../models/Report');
 const User = require ('../models/users');
 const Announcement = require ('../models/Announcement');
 const Facility = require ('../models/Facility');
+const LeaseRequest = require("../models/Request");
+
 
 module.exports = class AdminController{
     static async fetchReports(req, res){
@@ -71,6 +73,16 @@ module.exports = class AdminController{
         }
     }
 
+    static async getTenantNameById(req, res) {
+        try {
+          const user = await User.findById(req.params.id);
+          const fullName = user.fName + ' ' + user.lName;
+          res.status(200).json(fullName);
+        } catch (err) {
+          res.status(400).json({ message: err.message });
+        }
+      }
+
     static async fetchTenantByID(req, res){
         try{
             const id = req.params.id;
@@ -108,18 +120,25 @@ module.exports = class AdminController{
 
     static async createAnnouncement(req, res){
         try{
-            const announcementData = req.body;
-            if (!announcementData.title || !announcementData.message) {
-                return res.status(400).json({message: "Title and message are required"});
-            }
-            const announcement = new Announcement(announcementData);
-            await announcement.save();
-            return res.status(200).json({message: "Announcement created successfully"});
+          const { title, message, scheduledDate } = req.body;
+          if (!title || !message) {
+            return res.status(400).json({message: "Title and message are required"});
+          }
+          let publishDate;
+          if (scheduledDate) {
+            // Parse the scheduledDate as a local date and time
+            publishDate = new Date(scheduledDate);
+          } else {
+            publishDate = new Date();
+          }
+          const announcement = new Announcement({ title, message, publishDate });
+          await announcement.save();
+          return res.status(200).json({message: "Announcement created successfully"});
         }
         catch(err){
-            return res.status(400).json({message: err.message});
+          return res.status(400).json({message: err.message});
         }
-    }
+      }
 
     static async getAnnouncementById(req, res){
         try{
@@ -157,5 +176,14 @@ module.exports = class AdminController{
             return res.status(400).json({message: err.message});
         }
     }
+
+    static async fetchRequests(req, res) {
+        try {
+          const leaseRequests = await LeaseRequest.find();
+          return res.status(200).json(leaseRequests);
+        } catch (err) {
+          return res.status(400).json({ message: err.message });
+        }
+      }
     
 }

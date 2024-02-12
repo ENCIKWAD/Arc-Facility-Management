@@ -14,7 +14,7 @@
                 variant="solo"
                 class="no-underline"
                 rounded
-                placeholder="Search for tenant name"
+                placeholder="Search for tenant by email"
                 prepend-inner-icon="mdi-magnify"
                 hide-details
                 color="primary"
@@ -123,16 +123,16 @@ export default {
       }
     },
 
-    async search() {
-        let search = parseInt(this.searchBar, 10);
-        if (isNaN(search)) {
-            this.state.noSearch = true;
-            return;
-        }
-        this.state.noSearch = false;
-        this.state.searchResults = this.tenants.filter((tenant, index) =>
-            index + 1 === search
-        );
+    search() {
+      const search = this.searchBar.trim().toLowerCase();
+      if (!search) {
+        this.state.noSearch = true;
+        return;
+      }
+      this.state.noSearch = false;
+      this.state.searchResults = this.tenants.filter(tenant =>
+        tenant.email.toLowerCase().includes(search)
+      );
     },
   }
 }

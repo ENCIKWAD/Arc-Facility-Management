@@ -47,28 +47,31 @@
             <v-table>
                 <thead>
                     <tr>
-                        <th class="text-left">#</th>
+                        <th class="text-left">ID :#</th>
                         <th class="text-center">Title</th>
                         <th class="text-center">Date</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <tr v-for="(announcement, index) in itemsToDisplay" :key="announcement._id">
-                        <td> {{ index + 1 }}</td>
+                        <td> {{ announcements.findIndex(a => a._id === announcement._id) + 1 }}</td>
                         <td class="text-center"> {{ announcement.title }}</td>
-                        <td class="text-center"> {{ formatDate(announcement.publishDate) }}</td>
+                        <td class="text-center" :class="{ 'not-published': !isPublished(announcement) }"> {{ formatDate(announcement.publishDate) }}</td>
                         <td class="text-center">
                             <v-btn
                                 :to="{ name: 'editAnnouncement', params: { id: announcement._id }}"
                                 rounded="l"
-                                color="blue"
+                                variant="plain"
                             ><v-icon size="30">mdi-pencil</v-icon></v-btn>
                             <v-btn
                                 :to="{ name: 'deleteAnnouncement', params: { id: announcement._id }}"
                                 rounded="l"
-                                color="red">
-                            <v-icon>mdi-delete</v-icon></v-btn></td>
+                                color="red"
+                                variant="plain"
+                                >
+                            <v-icon size="30">mdi-delete</v-icon></v-btn></td>
                     </tr>
 
                 </tbody>
@@ -134,6 +137,11 @@ export default {
         announcement.title.toLowerCase().includes(search)
       );
     },
+
+    isPublished(announcement) {
+      return new Date(announcement.publishDate) <= new Date();
+    },
+
     formatDate(date) {
       let d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -191,11 +199,23 @@ export default {
   z-index: 1000;
 }
 
+.v-table th {
+  padding-top: 10px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: gray;
+  color: white;
+}
+
 .reset-icon {
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
   background: none !important;
   box-shadow: none !important;
+}
+
+.not-published {
+  color: red;
 }
 </style>
