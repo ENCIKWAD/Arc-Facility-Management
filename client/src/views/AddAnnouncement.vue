@@ -144,6 +144,7 @@
             // Send the form data to the server immediately
             const response = await AdminAPI.createAnnouncement(formData);
             console.log("response: " + JSON.stringify(response));
+            this.$router.push({ name: 'manageAnnouncement' });
           }
         } catch(err) {
           this.toggleAlert = true;

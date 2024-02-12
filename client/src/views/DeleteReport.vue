@@ -9,7 +9,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" :to="{name: 'manageFacility'}" text @click="dialog = false">Cancel</v-btn>
+                    <v-btn color="primary" :to="{name: 'inbox'}" text @click="dialog = false">Cancel</v-btn>
                     <v-btn color="error" text @click="deleteReport">Delete</v-btn>
                 </v-card-actions>
             </v-card>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import AdminAPI from '@/API/adminAPI';
+import AdminAPI from '../API/adminAPI';
 export default {
     data() {
         return {
@@ -26,14 +26,12 @@ export default {
         };
     },
     methods: {
-        deleteReport() {
+        async deleteReport() {
             AdminAPI.deleteReport(this.$route.params.id)
                 .then(() => {
                     this.$router.push({ name: 'inbox', query: { message: 'Report deleted successfully' } });
                 })
-                .catch(err => {
-                    console.log(err);
-                });
+
         }
     }
 };

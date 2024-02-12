@@ -44,8 +44,7 @@ export default class AdminAPI{
 
     static async deleteReport(id){
         const res = await axios.delete(url + '/inbox/' + id)
-        return r
-        es.data
+        return res.data
     }
 
     static async fetchTenants(){

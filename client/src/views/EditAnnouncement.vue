@@ -19,6 +19,7 @@
                 <v-card-text>
                     <v-text-field
                     :rules="rules"
+                    variant="outlined"
                     label="Title"
                     v-model="announcement.title"
                     bg-color="#D9D9D9"
@@ -29,6 +30,7 @@
                     <v-card-title>Announcement Message</v-card-title>
                     <v-textarea
                     :rules="rules"
+                    variant="outlined"
                         label="Message"
                         v-model="announcement.message"
                         bg-color="#D9D9D9"
@@ -92,6 +94,7 @@
             }
             if(this.$refs.form.validate()){
                 const response = await AdminAPI.editAnnouncement(this.announcement._id, formData);
+                this.$router.push({ name: 'manageAnnouncement' });
             }
         
         } catch(err){

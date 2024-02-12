@@ -65,7 +65,7 @@
                 this.selectedInbox.message
               }}</v-card-text>
               <v-card-text v-if="this.selectedInbox.tenantId != null"
-                >Tenant ID: {{ this.selectedInbox.tenantId }}</v-card-text
+                >Tenant Email: {{ tenantEmail }}</v-card-text
               >
               <v-card-text
                 >Date: {{ formatDate(this.selectedInbox.date) }}</v-card-text
@@ -173,6 +173,7 @@ export default {
       selectedUser: null,
       selectedFacility: null,
       toggleBtn: false,
+      tenantEmail: null
     };
   },
   components: {
@@ -269,6 +270,10 @@ export default {
         }
       }
     },
+    async getTenantEmail(tenant){
+      const tenantEmail = await AdminAPI.getUserById(tenant);
+      return tenantEmail.email;
+    }
   },
   computed: {
     duration() {
@@ -287,6 +292,15 @@ export default {
       return `${startTime} - ${endTime}`;
     },
   },
+  watch: {
+    async selectedInbox(newInbox){
+      if (newInbox && newInbox.tenantId) {
+      this.tenantEmail = await this.getTenantEmail(newInbox.tenantId);
+    } else {
+      this.tenantEmail = null;
+    }
+    }
+  }
 };
 </script>
 
