@@ -38,7 +38,7 @@
                 color="#5F3DAC"
               >
                 <v-stack>
-                  <v-icon color="black" size="70">mdi-file-alert</v-icon>
+                  <v-icon color="black" size="70">mdi-eye</v-icon>
                   <div>View Lease Request</div>
                 </v-stack>
               </v-btn>
