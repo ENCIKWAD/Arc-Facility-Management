@@ -181,7 +181,7 @@ export default {
 }
 
 .status-pending {
-  color: red;
+  color: rgb(248, 153, 0);
 }
 
 .status-accepted {
