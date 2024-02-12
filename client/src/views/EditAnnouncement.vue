@@ -88,13 +88,10 @@
             let formData = {
                 title: this.announcement.title,
                 message: this.announcement.message,
-                // scheduleLater: this.scheduleLater,
-                // scheduledDate: this.scheduledDate,
                 
             }
             if(this.$refs.form.validate()){
                 const response = await AdminAPI.editAnnouncement(this.announcement._id, formData);
-                console.log("response: " + JSON.stringify(response));
             }
         
         } catch(err){

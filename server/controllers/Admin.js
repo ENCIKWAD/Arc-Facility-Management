@@ -158,6 +158,12 @@ module.exports = class AdminController{
         try{
             const id = req.params.id;
             const announcement = req.body;
+    
+            // Check if title and message are provided
+            if (!announcement.title || !announcement.message) {
+                return res.status(400).json({message: "Title and message are required"});
+            }
+    
             await Announcement.findByIdAndUpdate(id, announcement);
             return res.status(200).json({message: "Announcement updated successfully"});
         }
