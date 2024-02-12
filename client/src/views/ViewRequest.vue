@@ -14,7 +14,7 @@
                 variant="solo"
                 class="no-underline"
                 rounded
-                placeholder="Search for lease request tenant by ID"
+                placeholder="Search for lease request ID"
                 prepend-inner-icon="mdi-magnify"
                 hide-details
                 color="primary"
@@ -43,6 +43,7 @@
                     <th class="text-left">Number</th>
                     <th class="text-center">Tenant Name</th>
                     <th class="text-center">Tenant ID</th>
+                    <th class="text-center">Duration</th>
                     <th class="text-center">Status</th>
                 </tr>
                 </thead>
@@ -51,8 +52,10 @@
                     <td>{{ leaseRequests.findIndex(r => r._id === request._id) + 1 }}</td>
                     <td class="text-center"> {{ request.tenantName }}</td>
                     <td class="text-center"> {{ request.tenantId }}</td>
+                    <td class="text-center">{{ formatTime(request.startTime) }} - {{ formatTime(request.endTime) }}</td>
                     <td class="text-center" :class="{'status-pending': request.status === 'Pending'
-                                                    , 'status-accepted': request.status === 'Accepted'}">
+                                                    , 'status-accepted': request.status === 'Accepted',
+                                                    'status-rejected': request.status === 'Rejected'}">
                                                      {{ request.status }}</td>
                 </tr>
                 </tbody>
@@ -115,6 +118,16 @@ export default {
         console.error(error);
         }
     },
+    formatTime(dateString) {
+  const date = new Date(dateString);
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  const strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+  return strTime;
+},
 
     handleSort() {
     let sortedRequests = [...this.itemsToDisplay]; // Create a new array
@@ -136,7 +149,7 @@ export default {
             }
             this.state.noSearch = false;
             this.state.searchResults = this.leaseRequests.filter(request =>
-            String(request.tenantId).toLowerCase().includes(search)
+            String(request._id).toLowerCase().includes(search)
         );
     },
   }
@@ -173,6 +186,10 @@ export default {
 
 .status-accepted {
   color: green;
+}
+
+.status-rejected {
+  color: red;
 }
 
 .v-table th,
