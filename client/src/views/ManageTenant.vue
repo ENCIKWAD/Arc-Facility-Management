@@ -3,8 +3,8 @@
         <div>
             <v-btn :to="{ name: 'adminHome' }" :ripple="false" variant="plain">
                 <v-icon size="90">mdi-arrow-left-circle</v-icon>
+                <h1>Manage Tenants</h1>
             </v-btn>
-            <h1 style="margin-top: 50px">Manage Tenants</h1>
         </div>
 
         <div class="container">

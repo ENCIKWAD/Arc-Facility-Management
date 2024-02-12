@@ -1,6 +1,15 @@
 <template>
     <div class="background-2">
+
+        <div>
+            <v-btn :to="{ name: 'manageAnnouncement' }" :ripple="false" variant="plain" class="margin">
+                <v-icon size="90">mdi-arrow-left-circle</v-icon>
+                <h2>manage announcement</h2>
+            </v-btn>
+        </div>
+
         <h1>Edit Announcement</h1>
+
         <v-card class="pa-4 card" rounded="xl">
             <v-form ref="form">
                 <v-alert v-model="toggleAlert" type="error">
@@ -110,6 +119,10 @@
   background-color: #f1ebe8;
   min-height: 100vh;
   padding: 2rem;
+}
+
+.margin {
+    margin-bottom: 80px; /* Adjust as needed */
 }
 
 .card {

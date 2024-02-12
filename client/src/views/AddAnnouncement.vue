@@ -1,10 +1,12 @@
 <template>
     <div class="background-2">
-      <v-btn @click="$router.go(-1)" :ripple="false" variant="plain">
+      <v-btn @click="$router.go(-1)" :ripple="false" variant="plain" class="margin">
         <v-icon  size="90">mdi-arrow-left-circle</v-icon>
+        <h1>Manage Announcement</h1>
       </v-btn>
-        <h1 class="margin-top">Create Announcement</h1>
-        <v-card class="pa-4 card margin-top" rounded="xl">
+      
+      <h1 class="reset-margin">Create Announcement</h1>
+      <v-card class="pa-4 card margin-top" rounded="xl">
             <v-form ref="form">
                 <v-alert v-model="toggleAlert" type="error">
                     {{ errorMessage }} <!-- Use errorMessage here -->
@@ -163,14 +165,18 @@
   background-color: #f1ebe8;
   min-height: 100vh;
   padding: 2rem;
+
 }
 
 .card {
   margin-left: 20px;
 }
 
+.margin{
+  margin-bottom: 60px;
+}
 .margin-top{
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 

@@ -3,8 +3,8 @@
         <div>
             <v-btn :to="{ name: 'adminHome' }" :ripple="false" variant="plain">
                 <v-icon size="90">mdi-arrow-left-circle</v-icon>
+                <h1>View Lease Request</h1>
             </v-btn>
-            <h1 style="margin-top: 50px">View Lease Request</h1>
         </div>
 
         <div class="container">
@@ -119,26 +119,28 @@ export default {
         }
     },
     formatTime(dateString) {
-  const date = new Date(dateString);
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  const strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
-  return strTime;
-},
+        const date = new Date(dateString);
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+        return strTime;
+    },
 
-    handleSort() {
-    let sortedRequests = [...this.itemsToDisplay]; // Create a new array
-    if (this.sortOrder) {
-      sortedRequests.sort((a, b) => b.status.localeCompare(a.status));
-    } else {
-      sortedRequests.sort((a, b) => a.status.localeCompare(b.status));
-    }
-    this.leaseRequests = sortedRequests;
-    this.sortOrder = !this.sortOrder; // Toggle the sort order for the next click
-  },
+    handleSort(selectedStatus) {
+        let sortedRequests = [...this.itemsToDisplay]; // Create a new array
+        const statusOrder = ['pending', 'accepted', 'rejected'];
+
+        sortedRequests.sort((a, b) => {
+            if (a.status.toLowerCase() === selectedStatus) return -1;
+            if (b.status.toLowerCase() === selectedStatus) return 1;
+            return statusOrder.indexOf(a.status.toLowerCase()) - statusOrder.indexOf(b.status.toLowerCase());
+        });
+
+        this.leaseRequests = sortedRequests;
+    },
 
     search() {
         const search = this.searchBar.trim().toLowerCase();
@@ -146,10 +148,10 @@ export default {
         if (!search) {
             this.state.noSearch = true;
             return;
-            }
-            this.state.noSearch = false;
-            this.state.searchResults = this.leaseRequests.filter(request =>
-            String(request._id).toLowerCase().includes(search)
+        }
+        this.state.noSearch = false;
+        this.state.searchResults = this.leaseRequests.filter(request =>
+            String(request.tenantId).toLowerCase().includes(search)
         );
     },
   }
