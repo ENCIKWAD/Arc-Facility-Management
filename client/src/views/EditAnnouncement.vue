@@ -38,8 +38,6 @@
                         ></v-textarea>
                     </v-card-text>
                 <v-card-actions>
-
-                        <v-checkbox label="Schedule for later"></v-checkbox>
         
                         <v-btn 
                             color="#5F3DAC"
