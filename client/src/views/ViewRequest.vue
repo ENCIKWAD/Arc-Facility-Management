@@ -84,7 +84,7 @@ export default {
         leaseRequests: [],
         searchBar: '',
         select: '',
-        items: ['pending', 'accepted'],
+        items: ['pending', 'accepted', 'rejected'],
         sortOrder: true,
     };
   },
@@ -181,7 +181,7 @@ export default {
 }
 
 .status-pending {
-  color: rgb(248, 153, 0);
+  color: #f89900;
 }
 
 .status-accepted {

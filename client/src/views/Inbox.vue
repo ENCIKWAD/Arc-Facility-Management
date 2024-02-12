@@ -131,7 +131,7 @@
                 >Lease {{ this.selectedInbox.status }}</v-card-text
               >
               <v-card-text
-                style="color: #d4d40f; font-size: 30px"
+                style="color: #f89900; font-size: 30px"
                 v-if="this.selectedInbox.status === 'Pending'"
                 >Lease {{ this.selectedInbox.status }}</v-card-text
               >
