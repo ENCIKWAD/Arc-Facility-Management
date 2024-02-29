@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@vuepic/vue-datepicker": "^8.0.0",
-    "date-fns": "^3.3.1",
-    "multer": "^1.4.5-lts.1"
-  }
-}
