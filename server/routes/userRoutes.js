@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../controllers/User');
 const multer = require('multer');
+const passport = require("passport");
 
 
 let storage = multer.diskStorage({
@@ -18,7 +19,7 @@ let upload = multer({
 }).single('image')
 
 router.get('/', (req, res) => res.render('login'))
-router.post('/', User.login);
+router.post('/', passport.authenticate("local"), User.login);
 router.get('/notAllowed', (req, res) => res.status(403).send('notAllowed'));
 router.post('/signUp', User.signUp);
 router.post('/report', User.createReport);

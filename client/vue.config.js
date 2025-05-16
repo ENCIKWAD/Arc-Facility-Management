@@ -1,6 +1,5 @@
-const { defineConfig } = require("@vue/cli-service");
-module.exports = defineConfig({
-  transpileDependencies: true,
+module.exports = {
+  transpileDependencies: [],
   devServer: {
     proxy: "http://localhost:3000",
   },
@@ -10,4 +9,4 @@ module.exports = defineConfig({
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
     },
   },
-});
+};

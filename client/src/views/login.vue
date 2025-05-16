@@ -44,12 +44,12 @@
       border="left"
       closable
       close-text="Close Alert"
-      color="red"
+      :color="alertColor"
       dark
       dismissible
-      v-if="this.toggleAlert"
+      v-if="toggleAlert"
     >
-      {{ this.message }}
+      {{ message }}
     </v-alert>
     <v-alert
       class="alert"
@@ -59,9 +59,9 @@
       color="green accent-4"
       dark
       dismissible
-      v-if="this.$route.query.message"
+      v-if="$route.query.message"
     >
-      {{ this.$route.query.message }}
+      {{ $route.query.message }}
     </v-alert>
   </div>
 </template>
@@ -78,6 +78,7 @@ export default {
       },
       toggleAlert: false,
       message: "",
+      alertColor: "red",
       rules: [
         (v) => !!v || "This is required",
       ]
@@ -91,18 +92,27 @@ export default {
       };
 
       try {
-        let response = await UserAPI.login(user);
-        sessionStorage.setItem('user', JSON.stringify(response.user));
-        this.message = "";
-        this.toggleAlert = false;
-        this.$router.push(`/${response.user.role}`, { params: { user: response.user } });
+        // Use axios directly to get the status code
+        let res = await UserAPI.login(user);
+        // If status is 200, proceed
+        if (res && res.user) {
+          sessionStorage.setItem('user', JSON.stringify(res.user));
+          this.message = "";
+          this.toggleAlert = false;
+          this.$router.push(`/${res.user.role}`, { params: { user: res.user } });
+        } else {
+          // fallback, should not happen
+          this.toggleAlert = true;
+          this.message = "Invalid credentials";
+        }
       } catch (err) {
         this.toggleAlert = true;
-        this.message = err.response.data.message;
+        this.alertColor = "red";
+        this.message = "Invalid credentials";
         this.$nextTick(() => {
-            setTimeout(() => {
-                this.toggleAlert = false;
-            }, 5000)
+          setTimeout(() => {
+            this.toggleAlert = false;
+          }, 5000)
         })
         this.user.email = "";
         this.user.password = "";
@@ -111,7 +121,6 @@ export default {
   },
 };
 </script>
-
 
 <style>
 .background {
@@ -166,8 +175,6 @@ a {
   width: 20vw;
   margin-top: 20px;
 }
-
-
 </style>
 
 <style scoped>
@@ -179,4 +186,3 @@ a {
   z-index: 1000;
 }
 </style>
-

@@ -88,39 +88,22 @@ module.exports = class UserController {
   }
 
   static async login(req, res) {
-    let user = req.body;
-    let { email, password } = user;
-    if (email == "" || password == "") {
-      return res
-        .status(400)
-        .json({ message: "Please fill both email and password" });
-    } else {
-      User.find({ email })
-        .then((data) => {
-          if (data.length) {
-            let user = data[0];
-            if(user.isBanned){
-              return res.status(400).json({ message: "This user has been banned" });
-            }
-            bcrypt.compare(password, data[0].password).then((result) => {
-              // comparing password with hashed password
-              if (result) {
-                return res
-                  .status(200)
-                  .json({ message: "Login successful", user });
-              } else {
-                return res.status(400).json({ message: "Invalid credentials" });
-              }
-            });
-          } else {
-            return res.status(400).json({ message: "Invalid credentials" });
-          }
-        })
-        .catch((err) => {
-          return res.status(400).json({ message: "error here" });
-        });
-    }
+  let user = req.user;
+  console.log("controller", user);
+
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials" });
   }
+
+  if (user.isBanned) {
+    return res.status(403).json({ message: "This user has been banned" });
+  }
+
+  // Remove password before sending user object
+  const { password, ...safeUser } = user._doc ? user._doc : user;
+
+  return res.status(200).json({ message: "Login successful", user: safeUser });
+}
 
   static async createReport(req, res) {
     try {

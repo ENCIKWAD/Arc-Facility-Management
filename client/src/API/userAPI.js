@@ -1,9 +1,10 @@
 import axios from 'axios';
-const url = '/'
+const url = process.env.VUE_APP_API_BASE_URL
 
 export default class UserAPI {
     static async login(user){
         const res = await axios.post(url, user);
+        console.log(res.data)
         return res.data;
     }
 
