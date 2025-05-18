@@ -13,7 +13,10 @@ const app = express(); // creating the app
 const port = process.env.PORT || 8000; // setting the port
 
 // middlewares
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:8080", // <-- your frontend URL
+  credentials: true
+}));
 app.use(express.json()); // for the RESTFUL API
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,6 +26,7 @@ app.use(
     secret: "your-secret-key", // Replace with a strong secret in production
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 }, // 1 hour
   })
 );
 

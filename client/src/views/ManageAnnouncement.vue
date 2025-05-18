@@ -55,7 +55,7 @@
                 </thead>
                 <tbody>
                     
-                    <tr v-for="(announcement, index) in itemsToDisplay" :key="announcement._id">
+                    <tr v-for="(announcement) in itemsToDisplay" :key="announcement._id">
                         <td> {{ announcements.findIndex(a => a._id === announcement._id) + 1 }}</td>
                         <td class="text-center"> {{ announcement.title }}</td>
                         <td class="text-center" :class="{ 'not-published': !isPublished(announcement) }"> {{ formatDate(announcement.publishDate) }}</td>

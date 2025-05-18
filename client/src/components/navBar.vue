@@ -79,6 +79,7 @@ import OwnerAPI from '../API/ownerAPI';
 import TenantAPI from '../API/tenantAPI';
 import AdminAPI from '../API/adminAPI';
 import {reactive} from 'vue'
+import UserAPI from '@/API/userAPI';
 export default {
   
   name: "navBar",
@@ -90,8 +91,8 @@ export default {
   },
   async created(){
     if(this.userRole === 'admin'){
-      const res = await AdminAPI.getReports();
-      this.content = res.length;
+      //const res = await AdminAPI.getReports();
+      //this.content = res.length;
     }
     else if(this.userRole === 'owner'){
       const res = await OwnerAPI.fetchRequests();
@@ -109,9 +110,17 @@ export default {
       this.searchBar = '';
 
     },
-    logout(){
+    async logout(){
       sessionStorage.removeItem('user');
-      this.$router.push({name: 'login'})
+      try{
+        const res = await UserAPI.logout();
+        if(res.status === 200){
+          this.$router.push({name: 'login'})
+        }
+      }
+      catch(err){
+        console.log(err);
+      }
     }
   },
   props: ["userName", "userImage", "userRole", "userLName", "userId"],

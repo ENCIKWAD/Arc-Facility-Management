@@ -1,10 +1,16 @@
 <template>
-  <div class="background-1">
-    <navBar :userName="user.fName" :userImage="user.image" :userRole="user.role" :userLName="user.lName" :userId="user._id"></navBar>
-    <div :class="{'margin' : this.$route.query.message}" class="btnFlex">
+  <div v-if="isAuthorized && userData" class="background-1">
+    <navBar 
+      :userName="userData.fName" 
+      :userImage="userData.image" 
+      :userRole="userData.role" 
+      :userLName="userData.lName" 
+      :userId="userData._id"
+    ></navBar>
+    <div :class="{'margin' : $route.query.message}" class="btnFlex">
       <h1 class="title">Facilities</h1>
       <v-btn
-      :to="{ name: 'manageFacility' }"
+        :to="{ name: 'manageFacility' }"
         class="icon-button"
         style="margin-top: 40px"
         rounded="xl"
@@ -17,8 +23,12 @@
     </div>
     
     <v-container>
-      <p class="title" v-if="this.facilities.length === 0">There are no facilities at the moment.</p>
-      <v-row :class="{'margin' : this.$route.query.message}" no-gutters>
+      <div v-if="loading" class="text-center py-5">
+        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        <p>Loading facilities...</p>
+      </div>
+      <p v-else-if="facilities.length === 0" class="title">There are no facilities at the moment.</p>
+      <v-row v-else :class="{'margin' : $route.query.message}" no-gutters>
         <v-col
           sm="4"
           class="pa-3"
@@ -30,7 +40,7 @@
       </v-row>
     </v-container>
     <v-alert
-    @click:close="closeAlert"
+      @click:close="closeAlert"
       class="alert"
       border="left"
       closable
@@ -38,50 +48,77 @@
       color="green accent-4"
       dark
       dismissible
-      v-if="this.$route.query.message"
+      v-if="$route.query.message"
     >
-      {{ this.$route.query.message }}
+      {{ $route.query.message }}
     </v-alert>
+  </div>
+  <div v-else-if="!isAuthorized && !authCheckComplete" class="loading-container">
+    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    <p>Checking authorization...</p>
   </div>
 </template>
 
 <script>
 import navBar from "../components/navBar.vue";
 import OwnerAPI from "../API/ownerAPI.js";
+import UserAPI from "../API/userAPI.js";
 import Facility from "../components/FacilityBox.vue";
+
 export default {
   name: "ownerHome",
   data() {
     return {
-      user: null,
+      userData: null,
+      isAuthorized: false,
+      authCheckComplete: false,
       facilities: [],
+      loading: true
     };
   },
   components: {
     navBar,
     Facility,
   },
+  
   async created() {
     try {
-      this.facilities = await OwnerAPI.fetchFacilities();
-    } catch (err) {
-      console.log(err);
-    }
-    if(this.$route.query.message){
-      this.$nextTick(() => {
-        setTimeout(this.closeAlert, 5000)
-      })
+      // Check authorization first
+      const response = await UserAPI.checkAuth();
+      
+      if (response.status === 200 && response.data.user && response.data.user.role === 'owner') {
+        this.isAuthorized = true;
+        this.userData = response.data.user;
+        sessionStorage.setItem('user', JSON.stringify(this.userData));
+        
+        // Now fetch facilities
+        try {
+          this.facilities = await OwnerAPI.fetchFacilities();
+        } catch (err) {
+          console.error("Error fetching facilities:", err);
+        } finally {
+          this.loading = false;
+        }
+        
+        if (this.$route.query.message) {
+          this.$nextTick(() => {
+            setTimeout(this.closeAlert, 5000);
+          });
+        }
+      } else {
+        this.$router.push({ name: 'unauthorized' });
+      }
+    } catch (error) {
+      console.error('Authorization check failed:', error);
+      this.$router.push({ name: 'unauthorized' });
+    } finally {
+      this.authCheckComplete = true;
     }
   },
   
   methods: {
-    closeAlert(){
+    closeAlert() {
       this.$router.push({ query: {} });
-    }
-  },
-  computed: {
-    user(){
-      return JSON.parse(sessionStorage.getItem("user"));
     }
   }
 };
@@ -108,15 +145,24 @@ export default {
   padding: 0 30px;
 }
 
-.margin
-{
+.margin {
   margin-top: 50px;
 }
+
 .alert {
   position: fixed;
   top: 100px;
   left: 0;
   right: 0;
   z-index: 1000;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1ebe8;
 }
 </style>

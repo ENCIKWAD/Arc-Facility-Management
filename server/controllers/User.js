@@ -89,8 +89,6 @@ module.exports = class UserController {
 
   static async login(req, res) {
   let user = req.user;
-  console.log("controller", user);
-
   if (!user) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -103,6 +101,14 @@ module.exports = class UserController {
   const { password, ...safeUser } = user._doc ? user._doc : user;
 
   return res.status(200).json({ message: "Login successful", user: safeUser });
+}
+
+static async checkAuth(req, res){
+  if (req.isAuthenticated()) {
+    return res.status(200).json({ message: "User is authenticated", user: req.user });
+  } else {
+    return res.status(401).json({ message: "User is not authenticated", user: null });
+  }
 }
 
   static async createReport(req, res) {
@@ -159,5 +165,14 @@ module.exports = class UserController {
     } catch (err) {
       return res.status(419).json({ message: err.message });
     }
+  }
+
+  static async logout(req, res){
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.status(200).json({ message: "Logout successful" });
+    });
   }
 };

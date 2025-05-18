@@ -68,12 +68,14 @@
 </template>
 
 <script>
+import UserAPI from "@/API/userAPI";
 import navBar from "../components/navBar.vue";
 export default{
   name: 'adminHome',
   data(){
     return{
-      user: null
+      user: null,
+      authorized: false,
     }
   },
   components: {
@@ -84,6 +86,18 @@ export default{
       return JSON.parse(sessionStorage.getItem('user'));
     }
   
+  },
+  async created(){
+    const userAuth = await UserAPI.checkAuth();
+    if(userAuth.status === 200 && !this.authorized && userAuth.data.user.role === 'admin'){
+      this.authorized = true;
+      this.user = userAuth.data.user;
+      sessionStorage.setItem('user', JSON.stringify(this.user));
+      console.log(this.user);
+    }
+    else{
+      this.$router.push({name: 'unauthorized'});
+    }
   }
 }
 

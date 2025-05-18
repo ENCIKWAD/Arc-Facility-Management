@@ -21,6 +21,7 @@ import ManageAccount from "@/views/ManageAccount.vue";
 import DeleteAnnouncement from "@/views/DeleteAnnouncement.vue";
 import MangeTenant from "@/views/ManageTenant.vue";
 import ViewRequest from "@/views/ViewRequest.vue";
+import Unauthorized from "@/views/Unauthorized.vue";
 
 const routes = [
 	{
@@ -140,6 +141,11 @@ const routes = [
 		name: "manageAccount",
 		component: ManageAccount,
 	},
+	{
+		path: "/unauthorized",
+		name: "unauthorized",
+		component: Unauthorized
+	}
 ];
 
 const router = createRouter({
