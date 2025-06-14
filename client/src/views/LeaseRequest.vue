@@ -9,6 +9,17 @@
     ></navBar>
     <h1 v-if="loading">Loading...</h1>
 
+    <!-- Error Alert - THIS IS THE FIX -->
+    <v-alert
+      v-if="toggleAlert"
+      type="error"
+      closable
+      @click:close="toggleAlert = false"
+      class="mb-4"
+    >
+      {{ message }}
+    </v-alert>
+
     <v-form @submit.prevent="submitForm">
       <v-card class="pa-8 flex-card">
         <div>
@@ -38,16 +49,14 @@
               label="Date"
               color="primary"
               bg-color="#5F3DAC"
-              @keydown.tab="clickDate"  
-              
+              @keydown.tab="clickDate"
             ></v-text-field>
             <v-date-picker
               v-if="dateClicked"
               v-model="lease.date"
               :allowed-dates="allowedDates"
               :min="formatCurrentDate"
-              max="2024-12-31"
-              @blur="clickDate"
+              :max="formatMaxDate"
             ></v-date-picker>
           </div>
           <div class="flex-Duration">
@@ -137,6 +146,9 @@ export default {
   data() {
     return {
       rules: [(v) => !!v || "This is required"],
+      loading: false,        // ADDED THIS
+      toggleAlert: false,    // ADDED THIS  
+      message: "",          // ADDED THIS
       facility: {},
       lease: {
         time: null,
@@ -173,7 +185,6 @@ export default {
         { label: "2:00 pm - 4:00 pm", value: { startTime: 14, endTime: 16 } },
         { label: "4:00 pm - 6:00 pm", value: { startTime: 16, endTime: 18 } },
         { label: "6:00 pm - 8:00 pm", value: { startTime: 18, endTime: 20 } },
-        // Add more time slots as needed
         { label: "8:00 am - 9:00 am", value: { startTime: 8, endTime: 9 } },
         { label: "9:00 am - 10:00 am", value: { startTime: 9, endTime: 10 } },
         { label: "10:00 am - 11:00 am", value: { startTime: 10, endTime: 11 } },
@@ -216,77 +227,122 @@ export default {
       );
     },
  
-
-  formatCurrentDate() {
-    if (this.currentDate == null) return;
-    return (
-      this.currentDate.getFullYear() +
-      "-" +
-      ("0" + (this.currentDate.getMonth() + 1)).slice(-2) +
-      "-" +
-      ("0" + this.currentDate.getDate()).slice(-2)
-    );
-  },
-},
-
-components: {
-  navBar,
-  },
-methods: {
-  clickDate() {
-    this.dateClicked = !this.dateClicked;
-  },
-  handleCapacity() {
-    const min = this.facility.minCap;
-  },
-  formatCurrency(value){
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'MYR' })
-  },
-
-    async submitForm() {
-    let lease = {
-      time: this.lease.time,
-      startTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.startTime)),
-      endTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.endTime)),
-      tenantId: this.user._id,
-      facilityId: this.facility._id,
-      duration: this.lease.duration,
-      capacity: this.lease.capacity,
-      date: this.lease.date,
-      price: this.facility.price,
-      location: this.facility.location,
-      status: "Pending",
-      title: "Lease Request"
-    };
-    console.log(this.startTime + "" + this.endTime + "" + lease);
-    try {
-      const response = await TenantAPI.createRequest(
-        this.facility._id,
-        lease
+    formatCurrentDate() {
+      if (this.currentDate == null) return;
+      return (
+        this.currentDate.getFullYear() +
+        "-" +
+        ("0" + (this.currentDate.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + this.currentDate.getDate()).slice(-2)
       );
-      this.$router.push({
-        name: "tenantHome",
-        query: { message: response.message },
-      });
-    } catch (err) {
-      this.toggleAlert = true;
-      this.message = err.response.data.message;
-      this.$nextTick(() => {
+    },
+
+    // Fixed: Added proper max date computation
+    formatMaxDate() {
+      const maxDate = new Date();
+      maxDate.setFullYear(maxDate.getFullYear() + 1); // 1 year from now
+      return (
+        maxDate.getFullYear() +
+        "-" +
+        ("0" + (maxDate.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + maxDate.getDate()).slice(-2)
+      );
+    },
+  },
+
+  components: {
+    navBar,
+  },
+  methods: {
+    // Fixed: Improved click handling to prevent unwanted closing
+    clickDate() {
+      this.dateClicked = !this.dateClicked;
+    },
+    
+    handleCapacity() {
+      const min = this.facility.minCap;
+    },
+    
+    formatCurrency(value){
+      return value.toLocaleString('en-US', { style: 'currency', currency: 'MYR' })
+    },
+
+    allowedDates(date) {
+      // Allow all dates by default, you can add custom logic here
+      return true;
+    },
+
+    // FIXED ERROR HANDLING
+    async submitForm() {
+      // Basic validation before submitting
+      if (!this.lease.date || !this.lease.time || !this.lease.capacity) {
+        this.toggleAlert = true;
+        this.message = "Please fill in all required fields (Date, Time, and Capacity).";
         setTimeout(() => {
           this.toggleAlert = false;
         }, 5000);
-      });
-    }
+        return;
+      }
+
+      try {
+        let lease = {
+          time: this.lease.time,
+          startTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.startTime)),
+          endTime: new Date(this.lease.date.setHours(this.timeOptions.find(timeOption => timeOption.label === this.lease.time).value.endTime)),
+          tenantId: this.user._id,
+          facilityId: this.facility._id,
+          duration: this.lease.duration,
+          capacity: this.lease.capacity,
+          date: this.lease.date,
+          price: this.facility.price,
+          location: this.facility.location,
+          status: "pending",
+          title: "Lease Request"
+        };
+        
+        console.log("Submitting lease request:", lease);
+        
+        const response = await TenantAPI.createRequest(
+          this.facility._id,
+          lease
+        );
+        
+        this.$router.push({
+          name: "tenantHome",
+          query: { message: response.message },
+        });
+      } catch (err) {
+        console.error("Booking error:", err);
+        this.toggleAlert = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        
+        // Handle different types of errors
+        if (err.response && err.response.data && err.response.data.message) {
+          this.message = err.response.data.message;
+        } else if (err.message) {
+          this.message = err.message;
+        } else {
+          this.message = "An error occurred while submitting your request. Please try again.";
+        }
+        
+        // Auto-hide alert after 7 seconds
+        setTimeout(() => {
+          this.toggleAlert = false;
+        }, 7000);
+      }
+    },
   },
-},
   async created() {
-  this.user = JSON.parse(sessionStorage.getItem("user"));
-  const response = await OwnerAPI.getFacilityById(this.$route.params.id);
-  this.facility = response;
-  this.loading = false; // Add this line
-  this.currentDate = new Date();
-  if (this.facility.minCap !== null) this.min = this.facility.minCap;
-},
+    this.user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await OwnerAPI.getFacilityById(this.$route.params.id);
+    this.facility = response;
+    this.loading = false;
+    this.currentDate = new Date();
+    if (this.facility.minCap !== null) this.min = this.facility.minCap;
+  },
 };
 </script>
 
